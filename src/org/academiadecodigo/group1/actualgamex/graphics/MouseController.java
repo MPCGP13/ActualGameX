@@ -1,29 +1,23 @@
 package org.academiadecodigo.group1.actualgamex.graphics;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 
-public class MousePaint extends Frame implements MouseMotionListener {
+public class MouseController extends Frame implements MouseMotionListener {
 
     private int quadrant;
     private Color color;
+    private UserGraphics user;
 
-    MousePaint() {
+    MouseController(UserGraphics user) {
+        this.user = user;
         quadrant = 3;
         addMouseMotionListener(this);
-
         setSize(1200, 600);
         // setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLayout(null);
         setVisible(true);
-        color =Color.BLUE;
-
-        Graphics text = getGraphics();
-        text.drawString("HELLO WORLD", 100, 100);
-        text.setColor(Color.BLUE);
-        text.setFont (new Font ("Helvetica", Font.BOLD | Font.ITALIC, 20));
 
 
     }
@@ -35,9 +29,6 @@ public class MousePaint extends Frame implements MouseMotionListener {
             Graphics g = getGraphics();
             g.setColor(Color.cyan);
             g.fillOval(e.getX(), e.getY(), 10, 10);
-
-
-
         }
         System.out.println("x:" + e.getX() + " -> y : " + e.getY());
 
@@ -45,15 +36,17 @@ public class MousePaint extends Frame implements MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
-        text.setColor(Color.BLUE);
-        text.setFont (new Font ("Helvetica", Font.BOLD | Font.ITALIC, 20));
+        System.out.println("x:" + e.getX() + " -> y : " + e.getY());
+        user.setCoordenates(new int[]{e.getX(), e.getY()});
     }
 
-    public static void main(String[] args) {
-        new MousePaint();
 
-    }
+    /**
+     * checkIfPaint will return one true boolean on just one quadrant
+     *
+     * @param e Mouse Event java.awt
+     * @return boolean to now if he can paint in the quadrant
+     */
 
     private boolean checkIfPaint(MouseEvent e) {
 
@@ -69,15 +62,7 @@ public class MousePaint extends Frame implements MouseMotionListener {
         }
 
     }
-/*
 
-    public Color attributeColor(){
-        switch (quadrant){
-            case 0:
-                return  Color.BLUE;
-            case
-        }
-    }
-*/
+
 
 }
