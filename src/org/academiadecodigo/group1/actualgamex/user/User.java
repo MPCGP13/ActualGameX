@@ -1,5 +1,9 @@
 package org.academiadecodigo.group1.actualgamex.user;
 
+import org.academiadecodigo.group1.actualgamex.Canvas;
+import org.academiadecodigo.group1.actualgamex.graphics.MouseController;
+import org.academiadecodigo.group1.actualgamex.graphics.UserGraphics;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -10,15 +14,18 @@ public class User {
     private final Socket socket;
     private final ExecutorService listenThread;
     private final ExecutorService writeThread;
-    private final Canvas canvas;
+    private final ExecutorService graphicsThread;
     private UserListener listenToServer;
     private UserWriter writeToServer;
+    private UserGraphics userGraphics;
 
     public User(String host, int port) throws IOException {
         socket = new Socket(host, port);
         listenThread = Executors.newSingleThreadExecutor();
         writeThread = Executors.newSingleThreadExecutor();
-        canvas = new Canvas();
+        graphicsThread = Executors.newSingleThreadExecutor();
+        userGraphics = new UserGraphics(3);
+
     }
 
     public void start() {
@@ -26,10 +33,13 @@ public class User {
         listenToServer = new UserListener(socket, this);
         listenThread.submit(listenToServer);
 
-        writeToServer = new UserWriter(socket, this;
+        writeToServer = new UserWriter(socket, this);
         writeThread.submit(writeToServer);
+        userGraphics = new UserGraphics(2);
+        graphicsThread.submit(userGraphics);
 
-        try {
+
+       /* try {
             // MOUSE READER!!!!
             // GRAPHICS...
 
@@ -39,7 +49,7 @@ public class User {
 
         } catch (IOException e) {
             System.err.println("Error handling socket connection: " + e.getMessage());
-        }
+        }*/
     }
 
     public void stop() {
@@ -50,6 +60,7 @@ public class User {
                 socket.close();
                 listenThread.shutdown();
                 writeThread.shutdown();
+                graphicsThread.shutdown();
                 // System.exit(0);  ????
             }
 
@@ -57,7 +68,16 @@ public class User {
 
     }
 
-    public Canvas getCanvas() {
-        return canvas;
+
+    public UserWriter getWriteToServer() {
+        return writeToServer;
+    }
+
+    public UserGraphics getUserGraphics() {
+        return userGraphics;
+    }
+
+    public UserListener getListenToServer() {
+        return listenToServer;
     }
 }

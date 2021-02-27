@@ -19,6 +19,7 @@ public class Server implements Runnable {
     private ServerSocket socket;
     private ExecutorService service;
     private final List<UserHandler> users;
+    private boolean connected;
 
     public Server(int port) throws IOException {
         socket = new ServerSocket(port);

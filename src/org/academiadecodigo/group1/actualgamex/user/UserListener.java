@@ -61,7 +61,7 @@ public class UserListener implements Runnable {
         } else {
 
             otherCoordBuffer.add(message);
-            coordinatesThreads.submit(user.getCanvas());
+            coordinatesThreads.submit(user.getWriteToServer());
 
             /* Canvas:
             String[] messageSplit = coordinatesBuffer.remove(0).split(":");
@@ -82,5 +82,9 @@ public class UserListener implements Runnable {
             System.out.println("Receiving error: " + ex.getMessage());
         }
 
+    }
+
+    public CopyOnWriteArrayList<String> getOtherCoordBuffer() {
+        return otherCoordBuffer;
     }
 }
