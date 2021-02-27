@@ -11,8 +11,8 @@ public class ClientLauncher {
         }
 
         try {
-            Client client = new Client(args[0], Integer.valueOf(args[1]));
-            client.start();
+            User user = new User(args[0], Integer.valueOf(args[1]));
+            user.start();
 
         } catch (IOException e) {
             System.err.println("Error connecting to server: " + e.getMessage());

@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class Client {
+public class User {
 
     private Socket socket;
 
-    public Client(String host, int port) throws IOException {
+    public User(String host, int port) throws IOException {
         socket = new Socket(host, port);
     }
 

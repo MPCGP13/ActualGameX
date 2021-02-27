@@ -5,6 +5,7 @@ import org.academiadecodigo.bootcamp.scanners.integer.IntegerInputScanner;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerRangeInputScanner;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 import org.academiadecodigo.group1.actualgamex.server.Server;
+import org.academiadecodigo.group1.actualgamex.user.User;
 
 import java.io.IOException;
 
@@ -59,17 +60,18 @@ public class GameName {
         Thread serverThread = new Thread(server);
         serverThread.start();
 
-        //new user(localhost, port);
-
+        new User ("localhost", port).start();
     }
 
-    public void joinGame() {
+    public void joinGame() throws IOException {
         String serverIP = getIP();
         int port = getPort();
 
-        //new User(serverIP, port)
-
+        new User (serverIP, port).start();
     }
+
+
+    // GETTERS & SETTERS -----------------------------------------------------------------------------
 
     private int getPort() {
         IntegerInputScanner portScanner = new IntegerInputScanner();
@@ -78,7 +80,6 @@ public class GameName {
         return prompt.getUserInput(portScanner);
 
     }
-
     private String getIP() {
         StringInputScanner ipScanner = new StringInputScanner();
         ipScanner.setMessage("Server IP: ");
