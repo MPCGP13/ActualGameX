@@ -1,25 +1,34 @@
 package org.academiadecodigo.group1.actualgamex.graphics;
 
+import org.academiadecodigo.group1.actualgamex.user.User;
 import java.awt.*;
 
-public class UserGraphics {
+public class UserGraphics implements Runnable {
 
-    //private String name;
-    private boolean host;
-    private double[] coordenates;
+
+    private int[] coordenates;
     private Color color;
     private int quadrant;
     private MouseController mouseController;
-    private Canvas canvas;
+    private Screen screen;
+    public static final int POINTER_SIZE = 10;
+    private User user;
 
 
-    UserGraphics(boolean host, int quadrant, Canvas canvas) {
-        //name = null;
-        this.host = host;
-        this.canvas = canvas;
-        coordenates = new double[2];
-        color = attributeColor();
-        mouseController = new MouseController(this);
+    public UserGraphics(int quadrant, User user) {
+
+        coordenates = new int[2];
+        color = attributeColor(quadrant);
+        this.user = user;
+    }
+
+    @Override
+    public void run() {
+        screen = new Screen();
+        mouseController = new MouseController(this, user);
+        screen.addMouseMotionListener(mouseController);
+
+        while (true) { UsersPaint(); }
 
     }
 
@@ -29,10 +38,10 @@ public class UserGraphics {
      *
      */
 
-    public Color attributeColor(){
+    public Color attributeColor(int quadrant){
         switch (quadrant){
             case 1:
-                return  Color.BLUE;
+                return Color.BLUE;
             case 2:
                 return Color.RED;
             case 3:
@@ -44,15 +53,30 @@ public class UserGraphics {
 
 
     //GETTERS
-
-    public Canvas getCanvas() {
-        return canvas;
+    public Screen getCanvas() {
+        return screen;
     }
+
 
     //SETTERS
 
-
-    public void setCoordenates(double[] coordenates) {
+    public void setCoordenates(int[] coordenates) {
         this.coordenates = coordenates;
+    }
+
+    public void UsersPaint () {
+        String[] messageSplit = user.getListenToServer().getOtherCoordBuffer().remove(0).split(":");
+        int quadrant = Integer.parseInt(messageSplit[0]);
+        int x = Integer.parseInt(messageSplit[1].split(",")[0]);
+        int y = Integer.parseInt(messageSplit[1].split(",")[1]);
+        paintDot(x, y, quadrant);
+    }
+
+    public void paintDot(int x, int y, int quadrant) {
+
+        Graphics g = screen.getGraphics();
+        g.setColor(attributeColor(quadrant));
+        g.fillOval(x, y, POINTER_SIZE, POINTER_SIZE);
+
     }
 }

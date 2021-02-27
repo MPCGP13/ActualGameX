@@ -56,6 +56,7 @@ public class UserHandler implements Runnable {
 
     public void close() {
         try {
+            System.out.println("SERVER CLOSING");
             socket.close();
         } catch (IOException e) {
             System.err.println("Error closing client socket: " + e.getMessage());

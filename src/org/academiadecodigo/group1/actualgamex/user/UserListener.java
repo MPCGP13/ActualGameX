@@ -7,16 +7,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class UserListener implements Runnable {
+public class UserListener {
 
     private final Socket socket;
     private final User user;
     private BufferedReader in;
     private CopyOnWriteArrayList<String> otherCoordBuffer;
-    private final ExecutorService coordinatesThreads = Executors.newFixedThreadPool(5) ;
+    // private final ExecutorService coordinatesThreads = Executors.newFixedThreadPool(5) ;
 
     public UserListener(Socket socket, User user) {
         this.socket = socket;
@@ -24,29 +22,27 @@ public class UserListener implements Runnable {
         otherCoordBuffer = new CopyOnWriteArrayList<>();
     }
 
-    @Override
-    public void run() { listen(); }
 
-    private void listen () {
+    public void listen () {
 
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             while (!socket.isClosed()) {
+            String message = in.readLine();
 
-                String message = in.readLine();
+            if (message == null) {
+                System.out.println("Server closed the connection.");
+            }
 
-                if (message == null) {
-                    System.out.println("Server closed the connection.");
-                }
-
-                filter(message);
+            filter(message);
             }
 
         } catch (IOException ex) {
             System.out.println("Receiving error: " + ex.getMessage());
 
         } finally {
+            System.out.println("LISTENER - FINALLY");
             close();
         }
 
@@ -59,20 +55,14 @@ public class UserListener implements Runnable {
             // ?!?!??!?!?!?!?!?!?!?!?!?
 
         } else {
-
             otherCoordBuffer.add(message);
-            coordinatesThreads.submit(user.getCanvas());
 
-            /* Canvas:
-            String[] messageSplit = coordinatesBuffer.remove(0).split(":");
-            int getColorID = Integer.parseInt(messageSplit[0]);
-            Double x = Double.parseDouble(messageSplit[1].split(",")[0]);
-            Double y = Double.parseDouble(messageSplit[1].split(",")[1]);
-            */
         }
     }
 
     private void close() {
+
+        System.out.println("USER_LISTENER: I'm closing...");
 
         try {
             in.close();
@@ -83,4 +73,9 @@ public class UserListener implements Runnable {
         }
 
     }
+
+    public CopyOnWriteArrayList<String> getOtherCoordBuffer() {
+        return otherCoordBuffer;
+    }
+
 }

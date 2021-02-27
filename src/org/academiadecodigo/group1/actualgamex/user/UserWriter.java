@@ -9,12 +9,10 @@ public class UserWriter implements Runnable {
     private final Socket socket;
     private final User user;
     private BufferedWriter out;
-    private CopyOnWriteArrayList<String> myCoordBuffer;
 
     public UserWriter(Socket socket, User user) {
         this.socket = socket;
         this.user = user;
-        myCoordBuffer = new CopyOnWriteArrayList<>();
     }
 
     @Override
@@ -25,8 +23,14 @@ public class UserWriter implements Runnable {
         try {
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
+            CopyOnWriteArrayList<String> buff = user.getMyCoordBuffer();
+
             while (!socket.isClosed()) {
-                out.write(myCoordBuffer.remove(0));
+
+                if (buff.size() > 0) {
+                    out.write(buff.remove(0));
+                }
+
             }
 
         } catch (IOException ex) {
@@ -40,6 +44,8 @@ public class UserWriter implements Runnable {
 
     private void close() {
 
+        System.out.println("USER_WRITER: I'm closing...");
+
         try {
             out.close();
             user.stop();
@@ -48,9 +54,5 @@ public class UserWriter implements Runnable {
             System.out.println("Receiving error: " + ex.getMessage());
         }
 
-    }
-
-    public CopyOnWriteArrayList<String> getMyCoordBuffer() {
-        return myCoordBuffer;
     }
 }

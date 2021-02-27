@@ -8,6 +8,7 @@ import org.academiadecodigo.group1.actualgamex.server.Server;
 import org.academiadecodigo.group1.actualgamex.user.User;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class GameName {
 
@@ -26,8 +27,9 @@ public class GameName {
                 "1 -> New Game\n\r" +
                 "2 -> Join Game\n\r" +
                 "3 -> Exit\n\r\n\r" +
-                "=========================\\n\\r\\n\\r" +
+                "=========================\n\r\n\r" +
                 "Select an option: ");
+
 
         scanner.setError("Please select one option...");
         int option = prompt.getUserInput(scanner);
@@ -50,7 +52,7 @@ public class GameName {
             System.err.println("Error opening server socket: " + e.getMessage());
 
         }
-        
+
     }
 
     public void newGame() throws IOException {
@@ -59,6 +61,15 @@ public class GameName {
 
         Thread serverThread = new Thread(server);
         serverThread.start();
+
+        while (!server.isConnected()) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         new User("localhost", port).start();
     }

@@ -19,6 +19,7 @@ public class Server implements Runnable {
     private ServerSocket socket;
     private ExecutorService service;
     private final List<UserHandler> users;
+    private boolean connected;
 
     public Server(int port) throws IOException {
         socket = new ServerSocket(port);
@@ -29,6 +30,8 @@ public class Server implements Runnable {
     @Override
     public void run() {
         int connections = 1;
+
+        connected = true;
 
         while (true) {
             waitConnection(connections);
@@ -63,6 +66,8 @@ public class Server implements Runnable {
 
     public void broadcast(String message, UserHandler sender) {
 
+        System.out.println("BROADCASTING!");
+
         synchronized (users) {
 
             for (UserHandler user : users) {
@@ -75,9 +80,11 @@ public class Server implements Runnable {
     }
 
     public void remove(UserHandler client) {
+        System.out.println("REMOVING!");
         users.remove(client);
     }
 
+    /*
     public String listClients() {
         StringBuilder list = new StringBuilder("Connected Clients:\n");
 
@@ -90,6 +97,7 @@ public class Server implements Runnable {
         return list.toString();
     }
 
+
     public UserHandler getClientByName(String name) {
         synchronized (users) {
             for (UserHandler user : users) {
@@ -100,6 +108,9 @@ public class Server implements Runnable {
         }
 
         return null;
-    }
+    } */
+        public boolean isConnected() {
+            return connected;
+        }
 }
 
