@@ -13,8 +13,8 @@ public class User {
     private final ExecutorService listenThread;
     private final ExecutorService writeThread;
     private final ExecutorService graphicsThread;
-    private UserListener listenToServer;
-    private UserWriter writeToServer;
+    private UserListener userListener;
+    private UserWriter userWriter;
     private UserGraphics userGraphics;
     private CopyOnWriteArrayList<String> myCoordBuffer;
 
@@ -29,18 +29,18 @@ public class User {
 
     public void start() {
 
-        userGraphics = new UserGraphics(2, this);
+        userGraphics = new UserGraphics(this);
         graphicsThread.submit(userGraphics);
 
-        listenToServer = new UserListener(socket, this);
+        userListener = new UserListener(socket, this);
         //listenThread.submit(listenToServer);
 
-        writeToServer = new UserWriter(socket, this);
-        writeThread.submit(writeToServer);
+        userWriter = new UserWriter(socket, this);
+        writeThread.submit(userWriter);
 
         while (!socket.isClosed()) {
             System.out.println("START - listening...");
-            listenToServer.listen();
+            userListener.listen();
         }
 
     }
@@ -64,8 +64,8 @@ public class User {
     }
 
 
-    public UserWriter getWriteToServer() {
-        return writeToServer;
+    public UserWriter getUserWriter() {
+        return userWriter;
     }
 
     public UserGraphics getUserGraphics() {
@@ -74,7 +74,7 @@ public class User {
     public CopyOnWriteArrayList<String> getMyCoordBuffer() {
         return myCoordBuffer;
     }
-    public UserListener getListenToServer() {
-        return listenToServer;
+    public UserListener getUserListener() {
+        return userListener;
     }
 }

@@ -14,7 +14,7 @@ public class UserHandler implements Runnable {
     private Server server;
     private String name;
     private PrintWriter out;
-    private final int colorID;
+    private final Integer colorID;
 
     public UserHandler(Socket socket, Server server, String name, int colorID) {
         this.socket = socket;
@@ -27,8 +27,7 @@ public class UserHandler implements Runnable {
     public void run() {
         try {
             BufferedReader in = openStreams();
-
-            send(Messages.WELCOME);
+            send(colorID.toString());
 
             if (!server.addClient(this)) {
                 send(Messages.SERVER_FULL);

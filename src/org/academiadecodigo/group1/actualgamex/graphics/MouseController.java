@@ -4,11 +4,11 @@ import org.academiadecodigo.group1.actualgamex.user.User;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 
 
 public class MouseController implements MouseMotionListener {
 
-    private int quadrant;
     private Color color;
     private UserGraphics userGraphics;
     private User user;
@@ -16,7 +16,6 @@ public class MouseController implements MouseMotionListener {
 
     public MouseController(UserGraphics userGraphics, User user) {
         this.userGraphics = userGraphics;
-        quadrant = 3;
         this.user = user;
     }
 
@@ -24,9 +23,12 @@ public class MouseController implements MouseMotionListener {
     public void mouseDragged(MouseEvent e) {
 
         if (checkIfPaint(e)) {
-            userGraphics.paintDot(e.getX(), e.getY(), quadrant);
+            userGraphics.paintDot(e.getX(), e.getY(), userGraphics.getQuadrant());
+
+            user.getMyCoordBuffer().add(e.getX() + "," + e.getY());
         }
-        user.getMyCoordBuffer().add(e.getX() + "," + e.getY());
+
+
 
     }
 
@@ -48,7 +50,7 @@ public class MouseController implements MouseMotionListener {
 
     private boolean checkIfPaint(MouseEvent e) {
 
-        switch (quadrant) {
+        switch (userGraphics.getQuadrant()) {
             case 1:
                 return (e.getX() > 0 && e.getX() < 600 && e.getY() > 40 && e.getY() < 300);
             case 2:

@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserListener {
@@ -13,13 +14,19 @@ public class UserListener {
     private final Socket socket;
     private final User user;
     private BufferedReader in;
-    private CopyOnWriteArrayList<String> otherCoordBuffer;
-    // private final ExecutorService coordinatesThreads = Executors.newFixedThreadPool(5) ;
+    private CopyOnWriteArrayList<String> quadrant1;
+    private CopyOnWriteArrayList<String> quadrant2;
+    private CopyOnWriteArrayList<String> quadrant3;
+    private CopyOnWriteArrayList<String> quadrant4;
+
 
     public UserListener(Socket socket, User user) {
         this.socket = socket;
         this.user = user;
-        otherCoordBuffer = new CopyOnWriteArrayList<>();
+        quadrant1 = new CopyOnWriteArrayList<>();
+        quadrant2 = new CopyOnWriteArrayList<>();
+        quadrant3 = new CopyOnWriteArrayList<>();
+        quadrant4 = new CopyOnWriteArrayList<>();
     }
 
 
@@ -27,6 +34,9 @@ public class UserListener {
 
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            int quadrant = Integer.parseInt(in.readLine());
+            user.getUserGraphics().setQuadrant(quadrant);
 
             while (!socket.isClosed()) {
             String message = in.readLine();
@@ -51,12 +61,29 @@ public class UserListener {
 
     private void filter (String message) {
 
+
         if (message.startsWith(Messages.COMMAND_IDENTIFIER)) {
             // ?!?!??!?!?!?!?!?!?!?!?!?
 
         } else {
-            otherCoordBuffer.add(message);
+            String[] splitedMsg = message.split(":");
 
+            int quadrant = Integer.parseInt(splitedMsg[0]);
+
+            switch (quadrant) {
+                case 1:
+                    quadrant1.add(splitedMsg[1]);
+                    break;
+                case 2:
+                    quadrant2.add(splitedMsg[1]);
+                    break;
+                case 3:
+                    quadrant3.add(splitedMsg[1]);
+                    break;
+                default:
+                    quadrant4.add(splitedMsg[1]);
+                    break;
+            }
         }
     }
 
@@ -74,8 +101,18 @@ public class UserListener {
 
     }
 
-    public CopyOnWriteArrayList<String> getOtherCoordBuffer() {
-        return otherCoordBuffer;
+    public CopyOnWriteArrayList<String> getOtherCoordBuffer(int quadrant) {
+        switch (quadrant) {
+            case 1:
+                return quadrant1;
+
+            case 2:
+                return quadrant2;
+            case 3:
+                return quadrant3;
+            default:
+                return quadrant4;
+        }
     }
 
 }

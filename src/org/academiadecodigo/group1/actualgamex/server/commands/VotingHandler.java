@@ -12,8 +12,6 @@ public class VotingHandler implements CommandHandler{
         if (!isValid(coordinates)) {
             return;
         }
-
-        // server.vote(coordinates);
     }
 
     private boolean isValid(String message) {

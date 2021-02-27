@@ -1,7 +1,10 @@
 package org.academiadecodigo.group1.actualgamex.graphics;
 
+import org.academiadecodigo.group1.actualgamex.user.Paintor;
 import org.academiadecodigo.group1.actualgamex.user.User;
 import java.awt.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class UserGraphics implements Runnable {
 
@@ -15,10 +18,8 @@ public class UserGraphics implements Runnable {
     private User user;
 
 
-    public UserGraphics(int quadrant, User user) {
-
+    public UserGraphics(User user) {
         coordenates = new int[2];
-        color = attributeColor(quadrant);
         this.user = user;
     }
 
@@ -28,8 +29,14 @@ public class UserGraphics implements Runnable {
         mouseController = new MouseController(this, user);
         screen.addMouseMotionListener(mouseController);
 
-        while (true) { UsersPaint(); }
+        ExecutorService paint = Executors.newFixedThreadPool(3);
 
+        for (int i = 1; i < 5; i++) {
+            if(i == quadrant) {
+                continue;
+            }
+            paint.submit(new Paintor(this, user, i));
+        }
     }
 
 
@@ -57,6 +64,11 @@ public class UserGraphics implements Runnable {
         return screen;
     }
 
+    public int getQuadrant() {
+        return quadrant;
+    }
+
+
 
     //SETTERS
 
@@ -64,13 +76,18 @@ public class UserGraphics implements Runnable {
         this.coordenates = coordenates;
     }
 
-    public void UsersPaint () {
-        String[] messageSplit = user.getListenToServer().getOtherCoordBuffer().remove(0).split(":");
+    public void setQuadrant(int quadrant) {
+        this.quadrant = quadrant;
+    }
+
+    /*public void usersPaint() {
+        String[] messageSplit = user.getUserListener().getOtherCoordBuffer().remove(0).split(":");
+        System.out.println("Color id:" + messageSplit[0] + "\n" + "Coord: " + messageSplit[1]);
         int quadrant = Integer.parseInt(messageSplit[0]);
         int x = Integer.parseInt(messageSplit[1].split(",")[0]);
         int y = Integer.parseInt(messageSplit[1].split(",")[1]);
         paintDot(x, y, quadrant);
-    }
+    }*/
 
     public void paintDot(int x, int y, int quadrant) {
 

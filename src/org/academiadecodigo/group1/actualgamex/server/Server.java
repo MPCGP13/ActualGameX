@@ -58,15 +58,12 @@ public class Server implements Runnable {
                 return false;
             }
 
-            broadcast(client.getName() + " " + Messages.JOIN_ALERT, null);
             users.add(client);
             return true;
         }
     }
 
     public void broadcast(String message, UserHandler sender) {
-
-        System.out.println("BROADCASTING!");
 
         synchronized (users) {
 
