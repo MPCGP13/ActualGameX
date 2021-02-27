@@ -10,7 +10,7 @@ public class QuitHandler implements CommandHandler{
     @Override
     public void handle(Server server, UserHandler sender, String message) {
         server.remove(sender);
-        server.broadcast(sender.getName() + " " + Messages.LEAVE);
+        server.broadcast(sender.getName() + " " + Messages.LEAVE, null);
         sender.close();
     }
 }

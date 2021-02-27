@@ -4,7 +4,7 @@ package org.academiadecodigo.group1.actualgamex.server.commands;
 import org.academiadecodigo.group1.actualgamex.server.Server;
 import org.academiadecodigo.group1.actualgamex.server.UserHandler;
 
-public class PaintingHandler implements CommandHandler{
+public class EndingHandler implements CommandHandler{
 
     @Override
     public void handle(Server server, UserHandler sender, String coordinates) {
@@ -13,7 +13,7 @@ public class PaintingHandler implements CommandHandler{
             return;
         }
 
-        server.broadcast(sender.getColorID() + ":" + coordinates, sender);
+        // server.endingOption(coordinates);
     }
 
     private boolean isValid(String message) {

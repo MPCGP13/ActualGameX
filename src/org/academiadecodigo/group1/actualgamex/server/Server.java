@@ -14,11 +14,11 @@ public class Server implements Runnable {
 
     private static final String DEFAULT_NAME = "Player";
     private static final int MAXIMUM_CLIENTS = 4;
+    private static final Color[] COLORS = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN, Color.MAGENTA};
 
     private ServerSocket socket;
     private ExecutorService service;
     private final List<UserHandler> users;
-    private final Color[] colors = {Color.BLACK, Color.BLUE, Color.GREEN, Color.RED, Color.MAGENTA};
 
     public Server(int port) throws IOException {
         socket = new ServerSocket(port);
@@ -40,7 +40,7 @@ public class Server implements Runnable {
         try {
             Socket clientSocket = socket.accept();
 
-            UserHandler connection = new UserHandler(clientSocket, this, DEFAULT_NAME + connections);
+            UserHandler connection = new UserHandler(clientSocket, this, DEFAULT_NAME + connections, connections);
             service.submit(connection);
 
         } catch (IOException e) {
@@ -55,16 +55,21 @@ public class Server implements Runnable {
                 return false;
             }
 
-            broadcast(client.getName() + " " + Messages.JOIN_ALERT);
+            broadcast(client.getName() + " " + Messages.JOIN_ALERT, null);
             users.add(client);
             return true;
         }
     }
 
-    public void broadcast(String message) {
+    public void broadcast(String message, UserHandler sender) {
+
         synchronized (users) {
+
             for (UserHandler user : users) {
-                user.send(message);
+
+                if (user != sender) {
+                    user.send(message);
+                }
             }
         }
     }
@@ -97,3 +102,4 @@ public class Server implements Runnable {
         return null;
     }
 }
+

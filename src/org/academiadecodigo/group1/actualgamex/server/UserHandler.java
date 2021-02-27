@@ -14,12 +14,13 @@ public class UserHandler implements Runnable {
     private Server server;
     private String name;
     private PrintWriter out;
-    private Color color;
+    private final int colorID;
 
-    public UserHandler(Socket socket, Server server, String name) {
+    public UserHandler(Socket socket, Server server, String name, int colorID) {
         this.socket = socket;
         this.server = server;
         this.name = name;
+        this.colorID = colorID;
     }
 
     @Override
@@ -65,12 +66,13 @@ public class UserHandler implements Runnable {
         out.println(message);
     }
 
+
+    // GETTERS & GETTERS --------------------------------------------------------------------
+
     public String getName() {
         return name;
     }
-
-    public Color getColor() { return color; }
-
+    public int getColorID() { return colorID; }
     public void setName(String name) {
         this.name = name;
     }

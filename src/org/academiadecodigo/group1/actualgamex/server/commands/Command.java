@@ -3,9 +3,11 @@ package org.academiadecodigo.group1.actualgamex.server.commands;
 import org.academiadecodigo.group1.actualgamex.server.Messages;
 
 public enum Command {
+    QUIT("", new QuitHandler()),
     INVALID("", new InvalidHandler()),
     COORDINATES("", new PaintingHandler()),
-    QUIT("", new QuitHandler());
+    VOTE_COORDINATES("", new VotingHandler()),
+    END_COORDINATES("", new EndingHandler());
 
     private String commandMessage;
     private CommandHandler handler;
