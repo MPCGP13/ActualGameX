@@ -23,8 +23,14 @@ public class UserWriter implements Runnable {
         try {
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
+            CopyOnWriteArrayList<String> buff = user.getMyCoordBuffer();
+
             while (!socket.isClosed()) {
-                out.write(user.getUserGraphics().getMyCoordBuffer().remove(0));
+
+                if (buff.size() > 0) {
+                    out.write(buff.remove(0));
+                }
+
             }
 
         } catch (IOException ex) {
@@ -37,6 +43,8 @@ public class UserWriter implements Runnable {
     }
 
     private void close() {
+
+        System.out.println("USER_WRITER: I'm closing...");
 
         try {
             out.close();

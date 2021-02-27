@@ -1,11 +1,9 @@
 package org.academiadecodigo.group1.actualgamex.user;
 
-import org.academiadecodigo.group1.actualgamex.Canvas;
-import org.academiadecodigo.group1.actualgamex.graphics.MouseController;
 import org.academiadecodigo.group1.actualgamex.graphics.UserGraphics;
-
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,41 +16,38 @@ public class User {
     private UserListener listenToServer;
     private UserWriter writeToServer;
     private UserGraphics userGraphics;
+    private CopyOnWriteArrayList<String> myCoordBuffer;
 
     public User(String host, int port) throws IOException {
         socket = new Socket(host, port);
         listenThread = Executors.newSingleThreadExecutor();
         writeThread = Executors.newSingleThreadExecutor();
         graphicsThread = Executors.newSingleThreadExecutor();
-        userGraphics = new UserGraphics(3);
+        myCoordBuffer = new CopyOnWriteArrayList<>();
 
     }
 
     public void start() {
 
+        userGraphics = new UserGraphics(2, this);
+        graphicsThread.submit(userGraphics);
+
         listenToServer = new UserListener(socket, this);
-        listenThread.submit(listenToServer);
+        //listenThread.submit(listenToServer);
 
         writeToServer = new UserWriter(socket, this);
         writeThread.submit(writeToServer);
-        userGraphics = new UserGraphics(2);
-        graphicsThread.submit(userGraphics);
 
+        while (!socket.isClosed()) {
+            System.out.println("START - listening...");
+            listenToServer.listen();
+        }
 
-       /* try {
-            // MOUSE READER!!!!
-            // GRAPHICS...
-
-            while (!socket.isClosed()) {
-                // waitMessage(reader); MOUSE READER LOGIC
-            }
-
-        } catch (IOException e) {
-            System.err.println("Error handling socket connection: " + e.getMessage());
-        }*/
     }
 
     public void stop() {
+
+        System.out.println("STOPPING!");
 
         try {
             if (socket != null) {
@@ -76,7 +71,9 @@ public class User {
     public UserGraphics getUserGraphics() {
         return userGraphics;
     }
-
+    public CopyOnWriteArrayList<String> getMyCoordBuffer() {
+        return myCoordBuffer;
+    }
     public UserListener getListenToServer() {
         return listenToServer;
     }

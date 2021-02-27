@@ -8,6 +8,7 @@ import org.academiadecodigo.group1.actualgamex.server.Server;
 import org.academiadecodigo.group1.actualgamex.user.User;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class GameName {
 
@@ -61,6 +62,14 @@ public class GameName {
         Thread serverThread = new Thread(server);
         serverThread.start();
 
+        while (!server.isConnected()) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         new User("localhost", port).start();
     }

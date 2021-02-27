@@ -1,6 +1,6 @@
 package org.academiadecodigo.group1.actualgamex.graphics;
 
-import org.academiadecodigo.group1.actualgamex.user.UserWriter;
+import org.academiadecodigo.group1.actualgamex.user.User;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,19 +10,21 @@ public class MouseController implements MouseMotionListener {
 
     private int quadrant;
     private Color color;
-    private UserGraphics user;
+    private UserGraphics userGraphics;
+    private User user;
 
 
-    public MouseController(UserGraphics user) {
-        this.user = user;
+    public MouseController(UserGraphics userGraphics, User user) {
+        this.userGraphics = userGraphics;
         quadrant = 3;
+        this.user = user;
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
 
         if (checkIfPaint(e)) {
-            user.paintDot(e.getX(), e.getY(), quadrant);
+            userGraphics.paintDot(e.getX(), e.getY(), quadrant);
         }
         user.getMyCoordBuffer().add(e.getX() + "," + e.getY());
 
@@ -32,8 +34,8 @@ public class MouseController implements MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        System.out.println("x:" + e.getX() + " -> y : " + e.getY());
-        user.setCoordenates(new int[]{e.getX(), e.getY()});
+        // System.out.println("x:" + e.getX() + " -> y : " + e.getY());
+        userGraphics.setCoordenates(new int[]{e.getX(), e.getY()});
     }
 
 
