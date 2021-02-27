@@ -60,14 +60,14 @@ public class GameName {
         Thread serverThread = new Thread(server);
         serverThread.start();
 
-        new User ("localhost", port).start();
+        new User("localhost", port).start();
     }
 
     public void joinGame() throws IOException {
         String serverIP = getIP();
         int port = getPort();
 
-        new User (serverIP, port).start();
+        new User(serverIP, port).start();
     }
 
 
