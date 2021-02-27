@@ -1,27 +1,40 @@
 package org.academiadecodigo.group1.actualgamex.user;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class User {
 
-    private Socket socket;
+    private final Socket socket;
+    private final ExecutorService listenThread;
+    private final ExecutorService writeThread;
+    private final Canvas canvas;
+    private UserListener listenToServer;
+    private UserWriter writeToServer;
 
     public User(String host, int port) throws IOException {
         socket = new Socket(host, port);
+        listenThread = Executors.newSingleThreadExecutor();
+        writeThread = Executors.newSingleThreadExecutor();
+        canvas = new Canvas();
     }
 
     public void start() {
-        Thread keyboard = new Thread(new KeyboardHandler(socket));
-        keyboard.start();
+
+        listenToServer = new UserListener(socket, this);
+        listenThread.submit(listenToServer);
+
+        writeToServer = new UserWriter(socket, this;
+        writeThread.submit(writeToServer);
 
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            // MOUSE READER!!!!
+            // GRAPHICS...
 
             while (!socket.isClosed()) {
-                waitMessage(reader);
+                // waitMessage(reader); MOUSE READER LOGIC
             }
 
         } catch (IOException e) {
@@ -29,14 +42,22 @@ public class User {
         }
     }
 
-    private void waitMessage(BufferedReader reader) throws IOException {
-        String message = reader.readLine();
+    public void stop() {
 
-        if (message == null) {
-            System.out.println("Connection closed from server side");
-            System.exit(0);
-        }
+        try {
+            if (socket != null) {
+                System.out.println("Closing the socket");
+                socket.close();
+                listenThread.shutdown();
+                writeThread.shutdown();
+                // System.exit(0);  ????
+            }
 
-        System.out.println(message);
+        } catch (IOException ex) { System.out.println("Error closing connection: " + ex.getMessage()); }
+
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
     }
 }
