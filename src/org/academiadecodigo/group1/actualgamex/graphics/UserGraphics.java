@@ -6,18 +6,21 @@ public class UserGraphics {
 
     //private String name;
     private boolean host;
-    private int[] coordenates;
+    private double[] coordenates;
     private Color color;
     private int quadrant;
     private MouseController mouseController;
+    private Canvas canvas;
 
 
-    UserGraphics(boolean host, int quadrant) {
+    UserGraphics(boolean host, int quadrant, Canvas canvas) {
         //name = null;
         this.host = host;
-        coordenates = new int[2];
+        this.canvas = canvas;
+        coordenates = new double[2];
         color = attributeColor();
         mouseController = new MouseController(this);
+
     }
 
 
@@ -28,11 +31,11 @@ public class UserGraphics {
 
     public Color attributeColor(){
         switch (quadrant){
-            case 0:
-                return  Color.BLUE;
             case 1:
-                return Color.RED;
+                return  Color.BLUE;
             case 2:
+                return Color.RED;
+            case 3:
                 return Color.YELLOW;
             default:
                 return Color.GREEN;
@@ -42,10 +45,14 @@ public class UserGraphics {
 
     //GETTERS
 
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
     //SETTERS
 
 
-    public void setCoordenates(int[] coordenates) {
+    public void setCoordenates(double[] coordenates) {
         this.coordenates = coordenates;
     }
 }

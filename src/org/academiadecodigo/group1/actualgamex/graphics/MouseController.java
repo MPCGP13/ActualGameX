@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 
-public class MouseController extends Frame implements MouseMotionListener {
+public class MouseController implements MouseMotionListener {
 
     private int quadrant;
     private Color color;
@@ -13,11 +13,6 @@ public class MouseController extends Frame implements MouseMotionListener {
     MouseController(UserGraphics user) {
         this.user = user;
         quadrant = 3;
-        addMouseMotionListener(this);
-        setSize(1200, 600);
-        // setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLayout(null);
-        setVisible(true);
 
 
     }
@@ -26,7 +21,7 @@ public class MouseController extends Frame implements MouseMotionListener {
     public void mouseDragged(MouseEvent e) {
 
         if (checkIfPaint(e)) {
-            Graphics g = getGraphics();
+            Graphics g = user.getCanvas().getGraphics();
             g.setColor(Color.cyan);
             g.fillOval(e.getX(), e.getY(), 10, 10);
         }
@@ -34,10 +29,12 @@ public class MouseController extends Frame implements MouseMotionListener {
 
     }
 
+
+
     @Override
     public void mouseMoved(MouseEvent e) {
         System.out.println("x:" + e.getX() + " -> y : " + e.getY());
-        user.setCoordenates(new int[]{e.getX(), e.getY()});
+        user.setCoordenates(new double[]{e.getX(), e.getY()});
     }
 
 
@@ -51,11 +48,11 @@ public class MouseController extends Frame implements MouseMotionListener {
     private boolean checkIfPaint(MouseEvent e) {
 
         switch (quadrant) {
-            case 0:
-                return (e.getX() > 0 && e.getX() < 600 && e.getY() > 40 && e.getY() < 300);
             case 1:
-                return (e.getX() >= 600 && e.getX() < 1200 && e.getY() > 40 && e.getY() < 300);
+                return (e.getX() > 0 && e.getX() < 600 && e.getY() > 40 && e.getY() < 300);
             case 2:
+                return (e.getX() >= 600 && e.getX() < 1200 && e.getY() > 40 && e.getY() < 300);
+            case 3:
                 return (e.getX() > 0 && e.getX() < 600 && e.getY() >= 300 && e.getY() < 600);
             default:
                 return (e.getX() >= 600 && e.getX() < 1200 && e.getY() >= 300 && e.getY() < 600);
