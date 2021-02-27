@@ -13,10 +13,11 @@ public class VotingHandler implements CommandHandler{
             return;
         }
 
-        server.vote(coordinates);
+        // server.vote(coordinates);
     }
 
     private boolean isValid(String message) {
         return !message.trim().isEmpty();
     }
+
 }

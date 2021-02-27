@@ -13,7 +13,7 @@ public class EndingHandler implements CommandHandler{
             return;
         }
 
-        server.endingOption(coordinates);
+        // server.endingOption(coordinates);
     }
 
     private boolean isValid(String message) {
