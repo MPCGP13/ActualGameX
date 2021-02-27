@@ -13,7 +13,7 @@ public class PaintingHandler implements CommandHandler{
             return;
         }
 
-        server.broadcast(sender.getColor() + ":" + coordinates, sender.getName());
+        server.broadcast(sender.getColorID() + ":" + coordinates, sender);
     }
 
     private boolean isValid(String message) {

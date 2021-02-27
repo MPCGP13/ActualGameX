@@ -40,7 +40,7 @@ public class Server implements Runnable {
         try {
             Socket clientSocket = socket.accept();
 
-            UserHandler connection = new UserHandler(clientSocket, this, DEFAULT_NAME + connections, COLORS[connections]);
+            UserHandler connection = new UserHandler(clientSocket, this, DEFAULT_NAME + connections, connections);
             service.submit(connection);
 
         } catch (IOException e) {
@@ -55,19 +55,19 @@ public class Server implements Runnable {
                 return false;
             }
 
-            broadcast(client.getName() + " " + Messages.JOIN_ALERT, "server");
+            broadcast(client.getName() + " " + Messages.JOIN_ALERT, null);
             users.add(client);
             return true;
         }
     }
 
-    public void broadcast(String message, String senderName) {
+    public void broadcast(String message, UserHandler sender) {
 
         synchronized (users) {
 
             for (UserHandler user : users) {
 
-                if (!user.getName().equals(senderName)) {
+                if (user != sender) {
                     user.send(message);
                 }
             }
@@ -102,3 +102,4 @@ public class Server implements Runnable {
         return null;
     }
 }
+
