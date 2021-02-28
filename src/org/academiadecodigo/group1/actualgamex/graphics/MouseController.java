@@ -9,7 +9,6 @@ import java.util.Arrays;
 
 public class MouseController implements MouseMotionListener {
 
-    private Color color;
     private UserGraphics userGraphics;
     private User user;
 
@@ -28,15 +27,11 @@ public class MouseController implements MouseMotionListener {
             user.getMyCoordBuffer().add(e.getX() + "," + e.getY());
         }
 
-
-
     }
-
 
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        // System.out.println("x:" + e.getX() + " -> y : " + e.getY());
         userGraphics.setCoordenates(new int[]{e.getX(), e.getY()});
     }
 

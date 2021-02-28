@@ -5,6 +5,7 @@ import org.academiadecodigo.group1.actualgamex.user.Paintor;
 import org.academiadecodigo.group1.actualgamex.user.User;
 import org.academiadecodigo.group1.actualgamex.user.UserTimer;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Timer;
 import java.util.concurrent.ExecutorService;
@@ -27,6 +28,7 @@ public class UserGraphics implements Runnable {
     private boolean restart;
 
 
+
     public UserGraphics(User user) {
         coordenates = new int[2];
         this.user = user;
@@ -38,8 +40,9 @@ public class UserGraphics implements Runnable {
     public void run() {
         try {
             //waiting room + music?
+
             if(!restart) {
-                screen = new Screen();
+                screen = new Screen("Fake Dudu", quadrant);
             }
 
             while(!gameStage.equals(Messages.START_GAME)) {
@@ -48,9 +51,10 @@ public class UserGraphics implements Runnable {
 
             //remove extras
 
+
             //Enable painting
             mouseController = new MouseController(this, user);
-            screen.addMouseMotionListener(mouseController);
+            screen.getFrame().addMouseMotionListener(mouseController);
 
             //Timer init
             timerInit(60);
@@ -62,7 +66,7 @@ public class UserGraphics implements Runnable {
                 TimeUnit.SECONDS.sleep(1);
             }
 
-            //Desable painting
+            //Disable painting
 
             while(!gameStage.equals("/END_GAME")) {
                 TimeUnit.SECONDS.sleep(1);
@@ -81,13 +85,11 @@ public class UserGraphics implements Runnable {
                     break;
             }
 
-
             //Restarting in...
             timerInit(15);
             gameStage = "init";
             restart = true;
             run();
-
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -151,7 +153,7 @@ public class UserGraphics implements Runnable {
 
     public void paintDot(int x, int y, int quadrant) {
 
-        Graphics g = screen.getGraphics();
+        Graphics g = screen.getFrame().getGraphics();
         g.setColor(attributeColor(quadrant));
         g.fillOval(x, y, POINTER_SIZE, POINTER_SIZE);
 
@@ -174,4 +176,5 @@ public class UserGraphics implements Runnable {
             paint.submit(new Paintor(this, user, i));
         }
     }
+
 }

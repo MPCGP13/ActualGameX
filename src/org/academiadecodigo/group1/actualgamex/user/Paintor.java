@@ -30,6 +30,5 @@ public class Paintor implements Runnable{
                 userGraphics.paintDot(x, y, quadrant);
             }
         }
-
     }
 }
