@@ -6,7 +6,7 @@ public enum Command {
     QUIT("", new QuitHandler()),
     INVALID("", new InvalidHandler()),
     COORDINATES("", new PaintingHandler()),
-    VOTE_COORDINATES("/VOTING", new VotingHandler());
+    VOTE_COORDINATES("VOTING", new VotingHandler());
 
     private String commandMessage;
     private CommandHandler handler;
@@ -28,12 +28,15 @@ public enum Command {
 
         String userCommand = message.split(" ")[0];
 
+
+
         for (Command command : values()) {
             if (userCommand.equals(command.commandMessage)) {
                 return command;
             }
         }
 
+        System.out.println("going invalid on commmand");
         return INVALID;
     }
 

@@ -29,8 +29,9 @@ public class UserWriter implements Runnable {
 
             while (!socket.isClosed()) {
 
-                if(user.getUserGraphics().getGameStage().equals(Messages.VOTE_TIME) && user.getVote() > 0) {
+                if(user.getUserGraphics().getGameStage().equals(Messages.VOTE_TIME) && user.getVote() != 0) {
                     out.println(Messages.VOTING + " " + user.getVote());
+                    user.getUserGraphics().setGameStage("");
                 }
 
                 if (buff.size() > 0) {

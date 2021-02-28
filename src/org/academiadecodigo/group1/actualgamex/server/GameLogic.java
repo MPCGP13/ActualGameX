@@ -25,7 +25,7 @@ public class GameLogic {
         server.broadcast ("/START_GAME " + word, fakeArtist);
         fakeArtist.send("/START_GAME impostor");
 
-        sleep(60);
+        sleep(10);
 
         server.broadcast ("/VOTE_TIME 1", null);
 
@@ -33,8 +33,15 @@ public class GameLogic {
             sleep(3);
         }
 
-        if (checkVote()) { server.broadcast (Messages.END_GAME + " impostor " + word, null); }
-        else { server.broadcast (Messages.END_GAME + " player " + word, null); }
+        System.out.println("ALL VOTES WERE COUNTED");
+
+        if (checkVote()) {
+            System.out.println("IMPOSTER");
+            server.broadcast (Messages.END_GAME + " impostor " + word, null); }
+        else {
+            System.out.println("players");
+            server.broadcast (Messages.END_GAME + " player " + word, null);
+        }
 
         sleep(15);
 

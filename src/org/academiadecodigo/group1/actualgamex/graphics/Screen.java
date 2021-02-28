@@ -138,10 +138,10 @@ public class Screen {
         frame.revalidate();
         frame.repaint();
 
-        word.setText(/* userGraphics.getGameWord()*/"MERDinhas");
-        word.setText(/* userGraphics.getGameWord()*/"MERDinhas");
-        word.setText(/* userGraphics.getGameWord()*/"MERDinhas");
-        timerInit(60);
+        word.setText(userGraphics.getGameWord());
+        word.setText(userGraphics.getGameWord());
+        word.setText(userGraphics.getGameWord());
+        timerInit(10);
     }
 
     public void vote() {
