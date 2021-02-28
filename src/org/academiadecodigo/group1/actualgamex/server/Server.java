@@ -1,6 +1,5 @@
 package org.academiadecodigo.group1.actualgamex.server;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,29 +13,34 @@ public class Server implements Runnable {
 
     private static final String DEFAULT_NAME = "Player";
     private static final int MAXIMUM_CLIENTS = 4;
-    private static final Color[] COLORS = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN, Color.MAGENTA};
 
     private ServerSocket socket;
     private ExecutorService service;
     private final List<UserHandler> users;
     private boolean connected;
+    private int connections;
+    private GameLogic gameLogic;
 
     public Server(int port) throws IOException {
         socket = new ServerSocket(port);
         users = Collections.synchronizedList(new LinkedList<>());
         service = Executors.newCachedThreadPool();
+        connections = 1;
     }
 
     @Override
     public void run() {
-        int connections = 1;
 
         connected = true;
 
-        while (true) {
+        while (connections < MAXIMUM_CLIENTS) {
             waitConnection(connections);
             connections++;
         }
+
+        gameLogic = new GameLogic(this);
+        gameLogic.init();
+
     }
 
     private void waitConnection(int connections) {
@@ -79,6 +83,7 @@ public class Server implements Runnable {
     public void remove(UserHandler client) {
         System.out.println("REMOVING!");
         users.remove(client);
+        connections--;
     }
 
     /*
@@ -106,8 +111,14 @@ public class Server implements Runnable {
 
         return null;
     } */
-        public boolean isConnected() {
-            return connected;
-        }
+    public boolean isConnected() {
+        return connected;
+    }
+    public List<UserHandler> getUsers() {
+        return users;
+    }
+    public GameLogic getGameLogic() {
+        return gameLogic;
+    }
 }
 

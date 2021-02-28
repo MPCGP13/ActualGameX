@@ -44,8 +44,7 @@ public class GameName {
                     game.joinGame();
                     break;
                 case 3:
-                    System.exit(0);
-                    break;
+                    System.exit(1);
             }
 
         } catch (IOException e) {

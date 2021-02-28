@@ -7,11 +7,13 @@ import org.academiadecodigo.group1.actualgamex.server.UserHandler;
 public class VotingHandler implements CommandHandler{
 
     @Override
-    public void handle(Server server, UserHandler sender, String coordinates) {
+    public void handle(Server server, UserHandler sender, String message) {
 
-        if (!isValid(coordinates)) {
+        if (!isValid(message)) {
             return;
         }
+
+        server.getGameLogic().addVotes(Integer.parseInt(message.split(" ")[1]));
     }
 
     private boolean isValid(String message) {

@@ -6,8 +6,7 @@ public enum Command {
     QUIT("", new QuitHandler()),
     INVALID("", new InvalidHandler()),
     COORDINATES("", new PaintingHandler()),
-    VOTE_COORDINATES("", new VotingHandler()),
-    END_COORDINATES("", new EndingHandler());
+    VOTE_COORDINATES("/VOTING", new VotingHandler());
 
     private String commandMessage;
     private CommandHandler handler;
