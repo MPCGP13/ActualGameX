@@ -1,5 +1,6 @@
 package org.academiadecodigo.group1.actualgamex.graphics;
 
+import org.academiadecodigo.group1.actualgamex.server.Messages;
 import org.academiadecodigo.group1.actualgamex.user.User;
 
 import java.awt.*;
@@ -21,12 +22,12 @@ public class MouseController implements MouseMotionListener {
     @Override
     public void mouseDragged(MouseEvent e) {
 
-        if (checkIfPaint(e)) {
-            userGraphics.paintDot(e.getX(), e.getY(), userGraphics.getQuadrant());
-
-            user.getMyCoordBuffer().add(e.getX() + "," + e.getY());
+        if(userGraphics.getGameStage().equals(Messages.START_GAME)){
+            if (checkIfPaint(e)) {
+                userGraphics.paintDot(e.getX(), e.getY(), userGraphics.getQuadrant());
+                user.getMyCoordBuffer().add(e.getX() + "," + e.getY());
+            }
         }
-
     }
 
 

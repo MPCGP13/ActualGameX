@@ -1,5 +1,7 @@
 package org.academiadecodigo.group1.actualgamex.user;
 
+import org.academiadecodigo.group1.actualgamex.graphics.Screen;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -7,9 +9,11 @@ import java.util.concurrent.TimeUnit;
 public class UserTimer implements Runnable {
 
     private int seconds;
+    private Screen screen;
 
-    public UserTimer(int seconds){
+    public UserTimer(int seconds, Screen screen){
         this.seconds = seconds;
+        this.screen = screen;
     }
 
     public void run() {
@@ -38,7 +42,7 @@ public class UserTimer implements Runnable {
 
         @Override
         public void run() {
-            System.out.println(seconds--);
+            screen.getCounter().setText(seconds-- + "s");
         }
     }
 

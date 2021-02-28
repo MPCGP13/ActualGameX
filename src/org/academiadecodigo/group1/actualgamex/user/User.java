@@ -78,6 +78,9 @@ public class User {
         return userListener;
     }
 
+    public void setVote(int vote) {
+        this.vote = vote;
+    }
     public int getVote() {
         return vote;
     }
