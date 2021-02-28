@@ -86,37 +86,14 @@ public class Server implements Runnable {
         connections--;
     }
 
-    /*
-    public String listClients() {
-        StringBuilder list = new StringBuilder("Connected Clients:\n");
-
-        synchronized (users) {
-            for (UserHandler user : users) {
-                list.append(user.getName()).append("\n");
-            }
-        }
-
-        return list.toString();
-    }
-
-
-    public UserHandler getClientByName(String name) {
-        synchronized (users) {
-            for (UserHandler user : users) {
-                if (user.getName().equals(name)) {
-                    return user;
-                }
-            }
-        }
-
-        return null;
-    } */
     public boolean isConnected() {
         return connected;
     }
+
     public List<UserHandler> getUsers() {
         return users;
     }
+
     public GameLogic getGameLogic() {
         return gameLogic;
     }
