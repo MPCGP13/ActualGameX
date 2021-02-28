@@ -25,7 +25,7 @@ public class GameLogic {
         server.broadcast ("/START_GAME " + word, fakeArtist);
         fakeArtist.send("/START_GAME FakeDudu");
 
-        sleep(30);
+        sleep(10);
 
         server.broadcast ("/VOTE_TIME 1", null);
 
@@ -33,13 +33,10 @@ public class GameLogic {
             sleep(3);
         }
 
-        System.out.println("ALL VOTES WERE COUNTED");
 
-        if (checkVote()) {
-            System.out.println("IMPOSTER");
+        if (!checkVote()) {
             server.broadcast (Messages.END_GAME + " FakeDudu " + word, null); }
         else {
-            System.out.println("players");
             server.broadcast (Messages.END_GAME + " player " + word, null);
         }
 
@@ -66,6 +63,8 @@ public class GameLogic {
                 finalVotes++;
             }
         }
+
+        System.out.println("FakeDudu votes: " + finalVotes);
 
         if (finalVotes >= server.getUsers().size() / 2) {
             return true;

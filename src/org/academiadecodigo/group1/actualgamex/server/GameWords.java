@@ -14,7 +14,8 @@ public class GameWords {
     "boat",
     "mouse",
     "computer",
-    "banana"};
+    "banana",
+    "peixeDeFrente"};
 
     public static String random() {
         return WORDS[(int) (Math.random() * WORDS.length)];

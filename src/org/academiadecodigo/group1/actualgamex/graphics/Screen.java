@@ -216,11 +216,22 @@ public class Screen {
         frame.setVisible(true);
     }
 
+    public void reset() {
+        word.setText("");
+        word.setText("");
+        word.setText("");
+
+        frame.remove(layer_win);
+        frame.repaint();
+        frame.revalidate();
+    }
+
     public void timerInit(int seconds) {
 
         UserTimer timer = new UserTimer(seconds, this);
         Thread timerThread = new Thread(timer);
         timerThread.start();
+
     }
 
     public JLabel getCounter() {

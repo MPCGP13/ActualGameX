@@ -81,6 +81,7 @@ public class UserGraphics implements Runnable {
             // Restarting in...
             TimeUnit.SECONDS.sleep(15);
 
+            screen.reset();
             gameStage = "init";
             restart = true;
             run();
