@@ -16,7 +16,6 @@ public class UserGraphics implements Runnable {
 
 
     private int[] coordenates;
-    private Color color;
     private int quadrant;
     private MouseController mouseController;
     private Screen screen;
@@ -117,9 +116,6 @@ public class UserGraphics implements Runnable {
 
 
     //GETTERS
-    public Screen getCanvas() {
-        return screen;
-    }
 
     public int getQuadrant() {
         return quadrant;
