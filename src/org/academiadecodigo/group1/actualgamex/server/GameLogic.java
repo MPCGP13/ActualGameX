@@ -8,6 +8,7 @@ public class GameLogic {
     private final Server server;
     private UserHandler fakeArtist;
     private CopyOnWriteArrayList<Integer> votes;
+    private String word;
 
 
     public GameLogic(Server server) {
@@ -17,9 +18,11 @@ public class GameLogic {
 
     public void init() {
 
+        word = GameWords.random();
+
         fakeArtist = server.getUsers().get((int) (Math.random() * server.getUsers().size()));
 
-        server.broadcast ("/START_GAME " + GameWords.random(), fakeArtist);
+        server.broadcast ("/START_GAME " + word, fakeArtist);
         fakeArtist.send("/START_GAME impostor");
 
         sleep(60);
@@ -30,8 +33,8 @@ public class GameLogic {
             sleep(3);
         }
 
-        if (checkVote()) { server.broadcast (Messages.END_GAME + " impostor", null); }
-        else { server.broadcast (Messages.END_GAME + " player", null); }
+        if (checkVote()) { server.broadcast (Messages.END_GAME + " impostor " + word, null); }
+        else { server.broadcast (Messages.END_GAME + " player " + word, null); }
 
         sleep(15);
 

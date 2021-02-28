@@ -71,11 +71,13 @@ public class UserGraphics implements Runnable {
             switch(winner) {
                 case "impostor":
                     // print on screen that Fake artist won
-                    System.out.println("FA WON");
+                    //show gameWord
+                    System.out.println("FA WON " + gameWord);
                     break;
                 case "player":
                     //print on screen that Fake artist was found
-                    System.out.println("FA FOUND");
+                    //show gameWord
+                    System.out.println("FA FOUND " + gameWord);
                     break;
             }
 
@@ -121,7 +123,9 @@ public class UserGraphics implements Runnable {
         return quadrant;
     }
 
-
+    public String getGameStage() {
+        return gameStage;
+    }
 
     //SETTERS
 

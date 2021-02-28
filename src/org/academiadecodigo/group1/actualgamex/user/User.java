@@ -17,6 +17,7 @@ public class User {
     private UserWriter userWriter;
     private UserGraphics userGraphics;
     private CopyOnWriteArrayList<String> myCoordBuffer;
+    private int vote = 0;
 
     public User(String host, int port) throws IOException {
         socket = new Socket(host, port);
@@ -75,5 +76,9 @@ public class User {
     }
     public UserListener getUserListener() {
         return userListener;
+    }
+
+    public int getVote() {
+        return vote;
     }
 }

@@ -78,6 +78,7 @@ public class UserListener {
                 case Messages.END_GAME:
                     user.getUserGraphics().setGameStage(Messages.END_GAME);
                     user.getUserGraphics().setWinner(splitedMsg[1]);
+                    user.getUserGraphics().setGameWord(splitedMsg[2]);
                     break;
             }
 

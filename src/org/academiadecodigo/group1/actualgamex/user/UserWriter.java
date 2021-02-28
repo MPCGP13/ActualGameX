@@ -1,5 +1,7 @@
 package org.academiadecodigo.group1.actualgamex.user;
 
+import org.academiadecodigo.group1.actualgamex.server.Messages;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,6 +28,10 @@ public class UserWriter implements Runnable {
             CopyOnWriteArrayList<String> buff = user.getMyCoordBuffer();
 
             while (!socket.isClosed()) {
+
+                if(user.getUserGraphics().getGameStage().equals(Messages.VOTE_TIME) && user.getVote() > 0) {
+                    out.println(Messages.VOTING + " " + user.getVote());
+                }
 
                 if (buff.size() > 0) {
                     out.println(buff.remove(0));
