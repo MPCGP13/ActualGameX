@@ -141,7 +141,7 @@ public class Screen {
         word.setText(userGraphics.getGameWord());
         word.setText(userGraphics.getGameWord());
         word.setText(userGraphics.getGameWord());
-        timerInit(10);
+        timerInit(30);
     }
 
     public void vote() {

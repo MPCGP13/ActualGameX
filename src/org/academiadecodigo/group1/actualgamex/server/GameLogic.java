@@ -23,9 +23,9 @@ public class GameLogic {
         fakeArtist = server.getUsers().get((int) (Math.random() * server.getUsers().size()));
 
         server.broadcast ("/START_GAME " + word, fakeArtist);
-        fakeArtist.send("/START_GAME impostor");
+        fakeArtist.send("/START_GAME FakeDudu");
 
-        sleep(10);
+        sleep(30);
 
         server.broadcast ("/VOTE_TIME 1", null);
 
@@ -37,7 +37,7 @@ public class GameLogic {
 
         if (checkVote()) {
             System.out.println("IMPOSTER");
-            server.broadcast (Messages.END_GAME + " impostor " + word, null); }
+            server.broadcast (Messages.END_GAME + " FakeDudu " + word, null); }
         else {
             System.out.println("players");
             server.broadcast (Messages.END_GAME + " player " + word, null);

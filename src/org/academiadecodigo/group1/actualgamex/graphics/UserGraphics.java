@@ -70,7 +70,7 @@ public class UserGraphics implements Runnable {
             }
 
             switch(winner) {
-                case "impostor":
+                case "FakeDudu":
                     screen.win();
                     break;
                 case "player":
