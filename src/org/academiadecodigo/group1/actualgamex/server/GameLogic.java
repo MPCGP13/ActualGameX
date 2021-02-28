@@ -20,7 +20,7 @@ public class GameLogic {
         fakeArtist = server.getUsers().get((int) (Math.random() * server.getUsers().size()));
 
         server.broadcast ("/START_GAME " + GameWords.random(), fakeArtist);
-        fakeArtist.send("/START_GAME imposter!");
+        fakeArtist.send("/START_GAME impostor");
 
         sleep(60);
 
@@ -30,10 +30,10 @@ public class GameLogic {
             sleep(3);
         }
 
-        if (checkVote()) { server.broadcast ("/END_GAME FA_lost", null); }
-        else { server.broadcast ("/END_GAME FA_won", null); }
+        if (checkVote()) { server.broadcast (Messages.END_GAME + " impostor", null); }
+        else { server.broadcast (Messages.END_GAME + " player", null); }
 
-        sleep(20);
+        sleep(15);
 
         server.run();
 

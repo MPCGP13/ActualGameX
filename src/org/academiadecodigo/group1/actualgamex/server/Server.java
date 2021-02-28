@@ -33,7 +33,7 @@ public class Server implements Runnable {
 
         connected = true;
 
-        while (connections < MAXIMUM_CLIENTS) {
+        while (connections < MAXIMUM_CLIENTS+1) {
             waitConnection(connections);
             connections++;
         }

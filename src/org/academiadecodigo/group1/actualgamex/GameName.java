@@ -22,7 +22,7 @@ public class GameName {
 
         GameName game = new GameName();
 
-        IntegerRangeInputScanner scanner = new IntegerRangeInputScanner(1, 2);
+        IntegerRangeInputScanner scanner = new IntegerRangeInputScanner(1, 3);
         scanner.setMessage("===Welcome to GameName===\n\r\n\r" +
                 "1 -> New Game\n\r" +
                 "2 -> Join Game\n\r" +
@@ -31,7 +31,7 @@ public class GameName {
                 "Select an option: ");
 
 
-        scanner.setError("Please select one option...");
+        scanner.setError("ERROR: Please select one option...\n\r");
         int option = prompt.getUserInput(scanner);
 
         try {

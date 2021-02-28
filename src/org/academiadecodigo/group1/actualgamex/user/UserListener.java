@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.List;
+import java.util.Timer;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserListener {
@@ -64,22 +65,21 @@ public class UserListener {
 
         if (message.startsWith(Messages.COMMAND_IDENTIFIER)) {
 
-            String[] messageSplit = message.split(" ");
+            String[] splitedMsg = message.split(" ");
 
-            switch (messageSplit[0]) {
-
+            switch (splitedMsg[0]) {
                 case Messages.START_GAME:
+                    user.getUserGraphics().setGameStage(Messages.START_GAME);
+                    user.getUserGraphics().setGameWord(splitedMsg[1]);
                     break;
-
                 case Messages.VOTE_TIME:
+                    user.getUserGraphics().setGameStage(Messages.VOTE_TIME);
                     break;
-
-
+                case Messages.END_GAME:
+                    user.getUserGraphics().setGameStage(Messages.END_GAME);
+                    user.getUserGraphics().setWinner(splitedMsg[1]);
+                    break;
             }
-
-
-
-
 
         } else {
             String[] splitedMsg = message.split(":");
@@ -121,7 +121,6 @@ public class UserListener {
         switch (quadrant) {
             case 1:
                 return quadrant1;
-
             case 2:
                 return quadrant2;
             case 3:

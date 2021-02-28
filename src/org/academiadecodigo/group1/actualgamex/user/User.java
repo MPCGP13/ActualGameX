@@ -33,7 +33,6 @@ public class User {
         graphicsThread.submit(userGraphics);
 
         userListener = new UserListener(socket, this);
-        //listenThread.submit(listenToServer);
 
         userWriter = new UserWriter(socket, this);
         writeThread.submit(userWriter);

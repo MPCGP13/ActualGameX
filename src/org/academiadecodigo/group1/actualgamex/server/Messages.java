@@ -14,8 +14,7 @@ public class Messages {
     public static final String VOTE_TIME = "/VOTE_TIME";
     public static final String JOIN_ALERT = "has joined";
     public static final String LEAVE = "has left the chat";
-    public static final String END_WIN = "/END_GAME FA_won";
-    public static final String END_LOSE = "/END_GAME FA_lost";
+    public static final String END_GAME = "/END_GAME";
 
     public static final String NAME_USAGE = "/name <new_username>";
     public static final String NAME_IN_USE = "name already in use";
