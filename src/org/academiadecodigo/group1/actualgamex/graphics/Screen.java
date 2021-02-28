@@ -23,7 +23,6 @@ public class Screen {
     private JLabel background_Img;
     private JLabel init_titleImg;
     private JLabel background_PlayerImg;
-    private JButton background_button;
     private JLabel word;
     private JLabel counter;
     private JLabel win;
@@ -104,10 +103,10 @@ public class Screen {
 
         background_Img = null;
         background_PlayerImg = null;
-        background_button = null;
+
 
         try {
-            background_button = new JButton(new ImageIcon(ImageIO.read(new File("resources/mute.png"))));
+
             background_Img = new JLabel(new ImageIcon(ImageIO.read(new File("resources/background.png"))));
             init_titleImg = new JLabel(new ImageIcon(ImageIO.read(new File("resources/title.png"))));
             background_PlayerImg = new JLabel(new ImageIcon(ImageIO.read(new File(playerPaths[userGraphics.getQuadrant()-1]))));
@@ -115,10 +114,6 @@ public class Screen {
             e.printStackTrace();
         }
 
-        background_button.setBounds(1350,18,42,43);
-        background_button.setContentAreaFilled(false);
-        background_button.setBorderPainted(false);
-        layer_background.add(background_button);
 
         background_PlayerImg.setBounds(1200, 10, 68, 64);
         layer_background.add(background_PlayerImg);
@@ -216,7 +211,7 @@ public class Screen {
         frame.setVisible(true);
     }
 
-    public void reset() {
+    /*public void reset() {
         word.setText("");
         word.setText("");
         word.setText("");
@@ -224,7 +219,7 @@ public class Screen {
         frame.remove(layer_win);
         frame.repaint();
         frame.revalidate();
-    }
+    }*/
 
     public void timerInit(int seconds) {
 

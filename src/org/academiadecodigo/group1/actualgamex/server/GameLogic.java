@@ -40,9 +40,9 @@ public class GameLogic {
             server.broadcast (Messages.END_GAME + " player " + word, null);
         }
 
-        sleep(15);
+        //sleep(15);
 
-        server.run();
+
 
     }
 
