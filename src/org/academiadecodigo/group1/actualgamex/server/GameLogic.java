@@ -25,7 +25,7 @@ public class GameLogic {
         server.broadcast ("/START_GAME " + word, fakeArtist);
         fakeArtist.send("/START_GAME FakeDudu");
 
-        sleep(10);
+        sleep(31);
 
         server.broadcast ("/VOTE_TIME 1", null);
 

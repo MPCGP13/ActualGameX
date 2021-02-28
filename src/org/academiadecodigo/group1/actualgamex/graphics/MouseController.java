@@ -50,11 +50,11 @@ public class MouseController implements MouseMotionListener {
             case 1:
                 return (e.getX() > 0 && e.getX() < 595 && e.getY() > 10 && e.getY() < 315);
             case 2:
-                return (e.getX() >= 605 && e.getX() < 1195 && e.getY() > 10 && e.getY() < 315);
+                return (e.getX() >= 605 && e.getX() < 1190 && e.getY() > 10 && e.getY() < 315);
             case 3:
-                return (e.getX() > 0 && e.getX() < 595 && e.getY() > 320 && e.getY() < 640);
+                return (e.getX() > 0 && e.getX() < 595 && e.getY() > 315 && e.getY() < 640);
             default:
-                return (e.getX() >= 605 && e.getX() < 1195 && e.getY() > 320 && e.getY() < 640);
+                return (e.getX() >= 605 && e.getX() < 1190 && e.getY() > 315 && e.getY() < 640);
         }
 
     }

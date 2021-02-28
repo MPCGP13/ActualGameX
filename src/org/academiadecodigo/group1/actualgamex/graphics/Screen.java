@@ -75,7 +75,7 @@ public class Screen {
         frame.add(layer_text, 1);
 
         word = new JLabel("");
-        word.setFont(new Font("Verdana", Font.PLAIN, 26));
+        word.setFont(new Font("Verdana", Font.PLAIN, 24));
         word.setBounds(1215, 530, 200, 40);
         layer_text.add(word);
 
