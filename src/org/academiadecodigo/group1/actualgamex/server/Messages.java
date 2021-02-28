@@ -9,8 +9,13 @@ public class Messages {
     public static final String ERROR = "Error";
     public static final String INVALID_COMMAND = "invalid command";
 
+    public static final String START_GAME = "/START_GAME";
+    public static final String VOTING = "/VOTING";
+    public static final String VOTE_TIME = "/VOTE_TIME";
     public static final String JOIN_ALERT = "has joined";
     public static final String LEAVE = "has left the chat";
+    public static final String END_WIN = "/END_GAME FA_won";
+    public static final String END_LOSE = "/END_GAME FA_lost";
 
     public static final String NAME_USAGE = "/name <new_username>";
     public static final String NAME_IN_USE = "name already in use";

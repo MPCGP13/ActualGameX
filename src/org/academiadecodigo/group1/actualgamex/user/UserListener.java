@@ -63,7 +63,23 @@ public class UserListener {
 
 
         if (message.startsWith(Messages.COMMAND_IDENTIFIER)) {
-            // ?!?!??!?!?!?!?!?!?!?!?!?
+
+            String[] messageSplit = message.split(" ");
+
+            switch (messageSplit[0]) {
+
+                case Messages.START_GAME:
+                    break;
+
+                case Messages.VOTE_TIME:
+                    break;
+
+
+            }
+
+
+
+
 
         } else {
             String[] splitedMsg = message.split(":");
