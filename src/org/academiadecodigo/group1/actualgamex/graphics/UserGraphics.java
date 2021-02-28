@@ -41,7 +41,7 @@ public class UserGraphics implements Runnable {
             //waiting room + music?
 
             if(!restart) {
-                screen = new Screen("Fake Dudu", quadrant);
+                screen = new Screen("Fake Dudu", this);
             }
 
             while(!gameStage.equals(Messages.START_GAME)) {
@@ -49,14 +49,11 @@ public class UserGraphics implements Runnable {
             }
 
             //remove extras
-
+            screen.start();
 
             //Enable painting
             mouseController = new MouseController(this, user);
             screen.getFrame().addMouseMotionListener(mouseController);
-
-            //Timer init
-            timerInit(60);
 
             //Other players realtime painting
             realTimePainting();
@@ -66,6 +63,7 @@ public class UserGraphics implements Runnable {
             }
 
             //Disable painting
+            screen.vote();
 
             while(!gameStage.equals("/END_GAME")) {
                 TimeUnit.SECONDS.sleep(1);
@@ -73,19 +71,16 @@ public class UserGraphics implements Runnable {
 
             switch(winner) {
                 case "impostor":
-                    // print on screen that Fake artist won
-                    //show gameWord
-                    System.out.println("FA WON " + gameWord);
+                    screen.win();
                     break;
                 case "player":
-                    //print on screen that Fake artist was found
-                    //show gameWord
-                    System.out.println("FA FOUND " + gameWord);
+                    screen.lost();
                     break;
             }
 
-            //Restarting in...
-            timerInit(15);
+            // Restarting in...
+            TimeUnit.SECONDS.sleep(15);
+
             gameStage = "init";
             restart = true;
             run();
@@ -94,7 +89,6 @@ public class UserGraphics implements Runnable {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Method responsible for atributing a Color.java.awt according to User quadrant
@@ -125,6 +119,14 @@ public class UserGraphics implements Runnable {
         return gameStage;
     }
 
+    public String getGameWord() {
+        return gameWord;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     //SETTERS
 
     public void setCoordenates(int[] coordenates) {
@@ -152,13 +154,6 @@ public class UserGraphics implements Runnable {
         Graphics g = screen.getFrame().getGraphics();
         g.setColor(attributeColor(quadrant));
         g.fillOval(x, y, POINTER_SIZE, POINTER_SIZE);
-
-    }
-
-    public void timerInit(int seconds) throws InterruptedException {
-        UserTimer timer = new UserTimer(seconds);
-        Thread timerThread = new Thread(timer);
-        timerThread.start();
 
     }
 
