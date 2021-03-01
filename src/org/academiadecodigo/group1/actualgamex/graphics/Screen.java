@@ -5,16 +5,15 @@ import org.academiadecodigo.group1.actualgamex.user.UserTimer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class Screen {
 
     private JFrame frame;
-    private final String[] playerPaths = {"/home/speres/Desktop/ActualGameX/resources/player_01.png",
-            "/home/speres/Desktop/ActualGameX/resources/player_02.png",
-            "/home/speres/Desktop/ActualGameX/resources/player_03.png",
-            "/home/speres/Desktop/ActualGameX/resources/player_04.png"};
+    private final String[] playerPaths = {"resources/player_01.png",
+            "resources/player_02.png",
+            "resources/player_03.png",
+            "resources/player_04.png"};
     private UserGraphics userGraphics;
     private JLayeredPane layer_background;
     private JLayeredPane layer_init;
@@ -83,11 +82,30 @@ public class Screen {
         frame.add(layer_init, 2);
         init_titleImg = null;
 
+        Image image = null;
         try {
-            init_titleImg = new JLabel(new ImageIcon(ImageIO.read(new File("/home/speres/Desktop/ActualGameX/resources/title.png"))));
+            // Read from a file
+            /*File file = new File("resources/title.png");
+            image = ImageIO.read(file);*/
+
+            // Read from an input stream
+            InputStream is = new BufferedInputStream(
+                    new FileInputStream("resources/title.png"));
+            image = ImageIO.read(is);
+
+            init_titleImg = new JLabel(new ImageIcon(image));
+
+        } catch (IOException e) {
+        }
+
+
+
+        ;
+        /*try {
+            init_titleImg = new JLabel(new ImageIcon(image));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         init_titleImg.setBounds(400,140, 405, 302);
         layer_init.add(init_titleImg);
@@ -104,8 +122,8 @@ public class Screen {
 
         try {
 
-            background_Img = new JLabel(new ImageIcon(ImageIO.read(new File("/home/speres/Desktop/ActualGameX/resources/background.png"))));
-            init_titleImg = new JLabel(new ImageIcon(ImageIO.read(new File("/home/speres/Desktop/ActualGameX/resources/title.png"))));
+            background_Img = new JLabel(new ImageIcon(ImageIO.read(new File("resources/background.png"))));
+            init_titleImg = new JLabel(new ImageIcon(ImageIO.read(new File("resources/title.png"))));
             background_PlayerImg = new JLabel(new ImageIcon(ImageIO.read(new File(playerPaths[userGraphics.getQuadrant()-1]))));
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,8 +141,6 @@ public class Screen {
     }
 
     public void start() {
-
-        System.out.println("TEST START");
 
         frame.remove(layer_init);
         frame.revalidate();
@@ -207,16 +223,6 @@ public class Screen {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
-    /*public void reset() {
-        word.setText("");
-        word.setText("");
-        word.setText("");
-
-        frame.remove(layer_win);
-        frame.repaint();
-        frame.revalidate();
-    }*/
 
     public void timerInit(int seconds) {
 
