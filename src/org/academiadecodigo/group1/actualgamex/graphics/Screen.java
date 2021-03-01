@@ -11,10 +11,10 @@ import java.io.IOException;
 public class Screen {
 
     private JFrame frame;
-    private final String[] playerPaths = {"/home/speres/Desktop/ActualGameX/resources/player_01.png",
-            "/home/speres/Desktop/ActualGameX/resources/player_02.png",
-            "/home/speres/Desktop/ActualGameX/resources/player_03.png",
-            "/home/speres/Desktop/ActualGameX/resources/player_04.png"};
+    private final String[] playerPaths = {"resources/player_01.png",
+            "resources/player_02.png",
+            "resources/player_03.png",
+            "resources/player_04.png"};
     private UserGraphics userGraphics;
     private JLayeredPane layer_background;
     private JLayeredPane layer_init;
@@ -84,7 +84,7 @@ public class Screen {
         init_titleImg = null;
 
         try {
-            init_titleImg = new JLabel(new ImageIcon(ImageIO.read(new File("/home/speres/Desktop/ActualGameX/resources/title.png"))));
+            init_titleImg = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream("resources/title.png"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,13 +100,13 @@ public class Screen {
 
         background_Img = null;
         background_PlayerImg = null;
+        init_titleImg = null;
 
 
         try {
-
-            background_Img = new JLabel(new ImageIcon(ImageIO.read(new File("/home/speres/Desktop/ActualGameX/resources/background.png"))));
-            init_titleImg = new JLabel(new ImageIcon(ImageIO.read(new File("/home/speres/Desktop/ActualGameX/resources/title.png"))));
-            background_PlayerImg = new JLabel(new ImageIcon(ImageIO.read(new File(playerPaths[userGraphics.getQuadrant()-1]))));
+            background_Img = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("resources/background.png"))));
+            init_titleImg = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("resources/title.png"))));
+            background_PlayerImg = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(playerPaths[userGraphics.getQuadrant()-1]))));
         } catch (IOException e) {
             e.printStackTrace();
         }
