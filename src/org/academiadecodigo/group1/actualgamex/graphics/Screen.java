@@ -5,8 +5,7 @@ import org.academiadecodigo.group1.actualgamex.user.UserTimer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class Screen {
 
@@ -83,11 +82,13 @@ public class Screen {
         frame.add(layer_init, 2);
         init_titleImg = null;
 
+
         try {
             init_titleImg = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream("resources/title.png"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         init_titleImg.setBounds(400,140, 405, 302);
         layer_init.add(init_titleImg);
@@ -111,7 +112,6 @@ public class Screen {
             e.printStackTrace();
         }
 
-
         background_PlayerImg.setBounds(1200, 10, 68, 64);
         layer_background.add(background_PlayerImg);
 
@@ -123,8 +123,6 @@ public class Screen {
     }
 
     public void start() {
-
-        System.out.println("TEST START");
 
         frame.remove(layer_init);
         frame.revalidate();
@@ -207,16 +205,6 @@ public class Screen {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
-    /*public void reset() {
-        word.setText("");
-        word.setText("");
-        word.setText("");
-
-        frame.remove(layer_win);
-        frame.repaint();
-        frame.revalidate();
-    }*/
 
     public void timerInit(int seconds) {
 
