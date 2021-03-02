@@ -3,9 +3,7 @@ package org.academiadecodigo.group1.actualgamex.graphics;
 import org.academiadecodigo.group1.actualgamex.server.Messages;
 import org.academiadecodigo.group1.actualgamex.user.User;
 
-import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
 
 
 public class MouseController implements MouseMotionListener {
@@ -24,16 +22,15 @@ public class MouseController implements MouseMotionListener {
 
         if(userGraphics.getGameStage().equals(Messages.START_GAME)){
             if (checkIfPaint(e)) {
-                userGraphics.paintDot(e.getX(), e.getY(), userGraphics.getQuadrant());
-                user.getMyCoordBuffer().add(e.getX() + "," + e.getY());
+                userGraphics.paintDot(e.getX(), e.getY(), userGraphics.getUserID());
+                user.getMyPaintingBuffer().add(e.getX() + "," + e.getY());
             }
         }
     }
 
-
     @Override
     public void mouseMoved(MouseEvent e) {
-        userGraphics.setCoordenates(new int[]{e.getX(), e.getY()});
+        userGraphics.setCoordinates(new int[]{e.getX(), e.getY()});
     }
 
 
@@ -46,7 +43,7 @@ public class MouseController implements MouseMotionListener {
 
     private boolean checkIfPaint(MouseEvent e) {
 
-        switch (userGraphics.getQuadrant()) {
+        switch (userGraphics.getUserID()) {
             case 1:
                 return (e.getX() > 0 && e.getX() < 595 && e.getY() > 10 && e.getY() < 315);
             case 2:

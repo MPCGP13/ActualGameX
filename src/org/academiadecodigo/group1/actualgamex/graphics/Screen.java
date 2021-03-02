@@ -107,7 +107,7 @@ public class Screen {
         try {
             background_Img = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("resources/background.png"))));
             init_titleImg = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("resources/title.png"))));
-            background_PlayerImg = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(playerPaths[userGraphics.getQuadrant()-1]))));
+            background_PlayerImg = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(playerPaths[userGraphics.getUserID()-1]))));
         } catch (IOException e) {
             e.printStackTrace();
         }

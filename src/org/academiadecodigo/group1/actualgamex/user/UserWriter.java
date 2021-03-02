@@ -20,25 +20,26 @@ public class UserWriter implements Runnable {
     @Override
     public void run() { send(); }
 
+    /**
+     * Method that sends messages to the server.
+     */
     private void send() {
-
         try {
             out = new PrintWriter(socket.getOutputStream(), true);
-
-            CopyOnWriteArrayList<String> buff = user.getMyCoordBuffer();
+            CopyOnWriteArrayList<String> myPaintingBuffer = user.getMyPaintingBuffer();
 
             while (!socket.isClosed()) {
 
-                if(user.getUserGraphics().getGameStage().equals(Messages.VOTE_TIME) && user.getVote() != 0) {
+                // Sends vote
+                if (user.getUserGraphics().getGameStage().equals(Messages.VOTE_TIME) && user.getVote() != 0) {
                     out.println(Messages.VOTING + " " + user.getVote());
                     user.getUserGraphics().setGameStage("");
                 }
 
-                if (buff.size() > 0) {
-                    out.println(buff.remove(0));
-
+                // Sends painted dots
+                if (myPaintingBuffer.size() > 0) {
+                    out.println(myPaintingBuffer.remove(0));
                 }
-
             }
 
         } catch (IOException ex) {
@@ -47,16 +48,15 @@ public class UserWriter implements Runnable {
         } finally {
             close();
         }
-
     }
 
+    /**
+     * Method that closes BufferedReader and user socket.
+     */
     private void close() {
-
         System.out.println("USER_WRITER: I'm closing...");
 
         out.close();
         user.stop();
-
-
     }
 }

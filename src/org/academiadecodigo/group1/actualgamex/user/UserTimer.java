@@ -1,7 +1,6 @@
 package org.academiadecodigo.group1.actualgamex.user;
 
 import org.academiadecodigo.group1.actualgamex.graphics.Screen;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -16,29 +15,29 @@ public class UserTimer implements Runnable {
         this.screen = screen;
     }
 
+    /**
+     * Method that creates a Timer Task each second of the count down
+     */
     public void run() {
-
         Timer timer = new Timer();
-        timer.schedule(new Counter(seconds), 5, 1000);
+        timer.schedule(new Counter(), 5, 1000);
 
         try {
-            TimeUnit.SECONDS.sleep(seconds+1);
+            TimeUnit.SECONDS.sleep(seconds + 1);
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         timer.cancel();
-
-
     }
 
+    /**
+     * Extends from TimerTask and prints each second of the count down
+     */
     private class Counter extends TimerTask{
 
-        private int seconds;
-
-        public Counter(int seconds) {
-            this.seconds = seconds;
-        }
-
+        public Counter() { }
 
         @Override
         public void run() {
