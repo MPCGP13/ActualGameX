@@ -1,6 +1,5 @@
-package org.academiadecodigo.group1.actualgamex.user;
+package org.academiadecodigo.group1.actualgamex.graphics;
 
-import org.academiadecodigo.group1.actualgamex.graphics.Screen;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;

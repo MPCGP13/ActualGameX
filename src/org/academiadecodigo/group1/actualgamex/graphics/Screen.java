@@ -1,7 +1,6 @@
 package org.academiadecodigo.group1.actualgamex.graphics;
 
 import org.academiadecodigo.group1.actualgamex.user.User;
-import org.academiadecodigo.group1.actualgamex.user.UserTimer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,6 +10,9 @@ import java.io.*;
 public class Screen {
 
     private static final String FONT_TYPE = "Verdana";
+    private static final int SCREEN_HEIGHT = 600;
+    private static final int SCREEN_WIDTH = 1400;
+    private static final int SCREEN_SIDEBAR = 200;
 
     private final UserGraphics userGraphics;
     private final JFrame frame = new JFrame();;
@@ -51,9 +53,12 @@ public class Screen {
         initScreen();
     }
 
+    /**
+     * Method that initiates the screen and lauches the first images.
+     */
     public void initScreen() {
         // Frame
-        frame.setSize(1415, 640);
+        frame.setSize(SCREEN_WIDTH + 15, SCREEN_HEIGHT + 35);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Counter
@@ -78,6 +83,9 @@ public class Screen {
         frame.setVisible(true);
     }
 
+    /**
+     * Method that refreshes the screen to the start mode.
+     */
     public void start() {
         frame.remove(layer_init);
         frame.revalidate();
@@ -90,19 +98,21 @@ public class Screen {
         timerInit(30);
     }
 
+    /**
+     * Method that refreshes the screen to the vote mode.
+     */
     public void vote() {
         frame.add(layer_voting, 0);
 
         votePlayers = new JButton[User.getMaximumPlayers()];
 
         for (int i = 0; i < votePlayers.length; i++) {
-
             votePlayers[i] = new JButton("J'accuse Fake Dudu!");
 
-            if (i < 2 ) {
-                votePlayers[i].setBounds(180 + 600 * i, 130, 300, 30);
+            if (i < User.getMaximumPlayers() / 2) {
+                votePlayers[i].setBounds((180 + ((SCREEN_WIDTH - SCREEN_SIDEBAR) / 2) * i), 130, (SCREEN_HEIGHT / 2), 30);
             } else {
-                votePlayers[i].setBounds(180 + 600 * (i - 2), 430, 300, 30);
+                votePlayers[i].setBounds((180 + ((SCREEN_WIDTH - SCREEN_SIDEBAR) / 2) * (i - 2)), 430, (SCREEN_HEIGHT / 2), 30);
             }
 
             votePlayers[i].setFont(new Font(FONT_TYPE, Font.PLAIN, 20));
@@ -114,6 +124,9 @@ public class Screen {
         framePaint();
     }
 
+    /**
+     * Method that refreshes the screen to the end screen mode
+     */
     public void endScreen (String message) {
         frame.remove(layer_voting);
         frame.revalidate();
@@ -124,9 +137,10 @@ public class Screen {
         framePaint();
     }
 
+    /**
+     * Method that refreshes adds an image to a layer.
+     */
     private void paintImage(JLayeredPane layer, JLabel label, String imagePath, int[] bounds) {
-        label = null;
-
         try {
             label = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath))));
         } catch (IOException e) {
@@ -137,6 +151,9 @@ public class Screen {
         layer.add(label);
     }
 
+    /**
+     * Method that refreshes adds a word to a layer.
+     */
     private void paintWord(JLayeredPane layer, JLabel label, String labelText, int fontSize, int[] bounds) {
         label.setText(labelText);
         label.setFont(new Font(FONT_TYPE, Font.PLAIN, fontSize));
@@ -144,12 +161,18 @@ public class Screen {
         layer.add(label);
     }
 
+    /**
+     * Method that paints the frame.
+     */
     private void framePaint() {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
+    /**
+     * Method that creates a new timer & counter.
+     */
     public void timerInit(int seconds) {
         UserTimer timer = new UserTimer(seconds, this);
         Thread timerThread = new Thread(timer);
