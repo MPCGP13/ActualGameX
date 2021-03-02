@@ -11,7 +11,6 @@ public class MouseController implements MouseMotionListener {
     private UserGraphics userGraphics;
     private User user;
 
-
     public MouseController(UserGraphics userGraphics, User user) {
         this.userGraphics = userGraphics;
         this.user = user;
@@ -33,14 +32,12 @@ public class MouseController implements MouseMotionListener {
         userGraphics.setCoordinates(new int[]{e.getX(), e.getY()});
     }
 
-
     /**
      * checkIfPaint will return one true boolean on just one quadrant
      *
      * @param e Mouse Event java.awt
      * @return boolean to now if he can paint in the quadrant
      */
-
     private boolean checkIfPaint(MouseEvent e) {
 
         switch (userGraphics.getUserID()) {

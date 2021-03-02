@@ -9,6 +9,8 @@ import java.util.concurrent.Executors;
 
 public class User {
 
+    private static final int MAXIMUM_PLAYERS = 4;
+
     private final Socket socket;
     private final ExecutorService listenThread;
     private final ExecutorService writeThread;
@@ -80,9 +82,11 @@ public class User {
     public int getVote() {
         return vote;
     }
+    public static int getMaximumPlayers() {
+        return MAXIMUM_PLAYERS;
+    }
 
-
-    // SETTERS --------------------------------------------------------------
+// SETTERS --------------------------------------------------------------
 
     public void setVote(int vote) {
         this.vote = vote;

@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 public class Server implements Runnable {
 
     private static final String DEFAULT_NAME = "Player";
-    private static final int MAXIMUM_CLIENTS = 4;
+    private static final int MAXIMUM_PLAYERS = 4;
 
     private ServerSocket socket;
     private ExecutorService service;
@@ -33,7 +33,7 @@ public class Server implements Runnable {
 
         connected = true;
 
-        while (connections < MAXIMUM_CLIENTS+1) {
+        while (connections < MAXIMUM_PLAYERS +1) {
             waitConnection(connections);
             connections++;
         }
@@ -58,7 +58,7 @@ public class Server implements Runnable {
     public boolean addClient(UserHandler client) {
         synchronized (users) {
 
-            if (users.size() >= MAXIMUM_CLIENTS) {
+            if (users.size() >= MAXIMUM_PLAYERS) {
                 return false;
             }
 

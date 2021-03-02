@@ -70,10 +70,10 @@ public class UserGraphics implements Runnable {
             // Present end screen
             switch(winner) {
                 case "FakeDudu":
-                    screen.win();
+                    screen.endScreen("Fake Dudu won!");
                     break;
                 case "player":
-                    screen.lost();
+                    screen.endScreen("Fake Dudu lost!");
                     break;
             }
 
@@ -108,7 +108,7 @@ public class UserGraphics implements Runnable {
     public void opponentsPainting(){
         ExecutorService paint = Executors.newFixedThreadPool(3);
 
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i <= User.getMaximumPlayers(); i++) {
             if(i == userID) {
                 continue;
             }
@@ -165,5 +165,4 @@ public class UserGraphics implements Runnable {
     public void setWinner(String winner) {
         this.winner = winner;
     }
-
 }

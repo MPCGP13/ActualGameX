@@ -1,5 +1,6 @@
 package org.academiadecodigo.group1.actualgamex.graphics;
 
+import org.academiadecodigo.group1.actualgamex.user.User;
 import org.academiadecodigo.group1.actualgamex.user.UserTimer;
 
 import javax.imageio.ImageIO;
@@ -9,124 +10,77 @@ import java.io.*;
 
 public class Screen {
 
-    private JFrame frame;
+    private static final String FONT_TYPE = "Verdana";
     private final String[] playerPaths = {"resources/player_01.png",
             "resources/player_02.png",
             "resources/player_03.png",
             "resources/player_04.png"};
-    private UserGraphics userGraphics;
+    private final UserGraphics userGraphics;
+    private JFrame frame;
     private JLayeredPane layer_background;
     private JLayeredPane layer_init;
-    private JLayeredPane layer_text;
+    private JLayeredPane layer_word;
     private JLayeredPane layer_counter;
-    private JLayeredPane layer_win;
-    private JLayeredPane layer_lose;
+    private JLayeredPane layer_end;
     private JLayeredPane layer_voting;
     private JLabel background_Img;
     private JLabel init_titleImg;
     private JLabel background_PlayerImg;
     private JLabel word;
     private JLabel counter;
-    private JLabel win;
-    private JLabel lose;
+    private JLabel end;
     private JButton[] votePlayers;
 
     public Screen(String title, UserGraphics userGraphics) {
         this.userGraphics = userGraphics;
-        drawScreen();
+        layer_background = new JLayeredPane();
+        layer_init = new JLayeredPane();
+        layer_word = new JLayeredPane();
+        layer_counter = new JLayeredPane();
+        layer_end = new JLayeredPane();
+        layer_voting = new JLayeredPane();
+        counter = new JLabel("");
+        word = new JLabel("");
+        end = new JLabel("");
+        background_Img = null;
+        init_titleImg = null;
+        background_PlayerImg = null;
 
+        drawScreen();
     }
 
     public void drawScreen() {
-
-        layer_background = new JLayeredPane();
-        layer_init = new JLayeredPane();
-        layer_text = new JLayeredPane();
-        layer_counter = new JLayeredPane();
-        layer_win = new JLayeredPane();
-        layer_lose = new JLayeredPane();
-        layer_voting = new JLayeredPane();
-
         frame = new JFrame();
-
         frame.setSize(1415, 640);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-        // COUNTER -----------------------------------------
-
+        // Counter
         frame.add(layer_counter, 0);
+        paintWord(layer_counter, counter, "", 34, new int[]{1258, 280, 200, 40});
+        framePaint();
 
-        counter = new JLabel("");
-        counter.setFont(new Font("Verdana", Font.PLAIN, 34));
-        counter.setBounds(1258, 280, 200, 40);
-        layer_counter.add(counter);
-
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
+        // Start
+        frame.add(layer_word, 1);
+        paintWord(layer_word, word, "", 24, new int[]{1215, 530, 200, 40});
         frame.setVisible(true);
 
-        // START ----------------------------------------------
-
-        frame.add(layer_text, 1);
-
-        word = new JLabel("");
-        word.setFont(new Font("Verdana", Font.PLAIN, 24));
-        word.setBounds(1215, 530, 200, 40);
-        layer_text.add(word);
-
-        frame.setVisible(true);
-
-        // INIT -------------------------------------------------
-
+        // Init
         frame.add(layer_init, 2);
-        init_titleImg = null;
-
-
-        try {
-            init_titleImg = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream("resources/title.png"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        init_titleImg.setBounds(400,140, 405, 302);
-        layer_init.add(init_titleImg);
-
+        paintImage(layer_init, init_titleImg, "resources/title.png", new int[] {400, 140, 405, 302});
         frame.setVisible(true);
 
-        // BACKGROUND --------------------------------------
-
+        // Background
         frame.add(layer_background, 3);
-
-        background_Img = null;
-        background_PlayerImg = null;
-        init_titleImg = null;
-
-
-        try {
-            background_Img = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("resources/background.png"))));
-            init_titleImg = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("resources/title.png"))));
-            background_PlayerImg = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(playerPaths[userGraphics.getUserID()-1]))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        background_PlayerImg.setBounds(1200, 10, 68, 64);
-        layer_background.add(background_PlayerImg);
-
-        background_Img.setBounds(0,0,1400,600);
-        layer_background.add(background_Img);
-
+        paintImage(layer_background, background_PlayerImg, playerPaths[userGraphics.getUserID()-1], new int[] {1200, 10, 68, 64});
+        paintImage(layer_background, background_Img, "resources/background.png", new int[] {0,0,1400,600});
         frame.setVisible(true);
-
     }
 
     public void start() {
-
         frame.remove(layer_init);
         frame.revalidate();
         frame.repaint();
+        System.out.println("Starting Word");
 
         word.setText(userGraphics.getGameWord());
         word.setText(userGraphics.getGameWord());
@@ -135,13 +89,9 @@ public class Screen {
     }
 
     public void vote() {
-
-        // VOTING -----------------------------------------
-
         frame.add(layer_voting, 0);
 
-        votePlayers = new JButton[4];
-
+        votePlayers = new JButton[User.getMaximumPlayers()];
 
         for (int i = 0; i < votePlayers.length; i++) {
 
@@ -153,66 +103,59 @@ public class Screen {
                 votePlayers[i].setBounds(180 + 600 * (i - 2), 430, 300, 30);
             }
 
-            votePlayers[i].setFont(new Font("Verdana", Font.PLAIN, 20));
+            votePlayers[i].setFont(new Font(FONT_TYPE, Font.PLAIN, 20));
             votePlayers[i].addActionListener(new ButtonAction((i+1), userGraphics));
 
             layer_voting.add(votePlayers[i]);
         }
 
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
+        framePaint();
     }
 
-    public void win() {
-
+    public void endScreen (String message) {
         frame.remove(layer_voting);
         frame.revalidate();
         frame.repaint();
 
-        // WIN -----------------------------------------
-
-        frame.add(layer_win, 0);
-
-        win = new JLabel("Fake Dudu won!");
-        win.setFont(new Font("Verdana", Font.BOLD, 70));
-        win.setBounds(250, 0, 700, 600);
-        layer_win.add(win);
-
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
+        frame.add(layer_end, 0);
+        paintWord(layer_end, end, message, 68, new int[]{250, 0, 700, 600});
+        framePaint();
     }
 
-    public void lost() {
+    private void paintImage(JLayeredPane layer, JLabel label, String imagePath, int[] bounds) {
+        label = null;
 
-        frame.remove(layer_voting);
-        frame.revalidate();
-        frame.repaint();
+        try {
+            label = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // LOST -----------------------------------------
+        label.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+        layer.add(label);
+    }
 
-        frame.add(layer_win, 0);
+    private void paintWord(JLayeredPane layer, JLabel label, String labelText, int fontSize, int[] bounds) {
+        label.setText(labelText);
+        label.setFont(new Font(FONT_TYPE, Font.PLAIN, fontSize));
+        label.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+        layer.add(label);
+    }
 
-        win = new JLabel("Fake Dudu lost!");
-        win.setFont(new Font("Verdana", Font.BOLD, 68));
-        win.setBounds(250, 0, 700, 600);
-        layer_win.add(win);
-
+    private void framePaint() {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     public void timerInit(int seconds) {
-
         UserTimer timer = new UserTimer(seconds, this);
         Thread timerThread = new Thread(timer);
         timerThread.start();
-
     }
+
+
+    // GETTERS ----------------------------------------------------------------------
 
     public JLabel getCounter() {
         return counter;
@@ -220,5 +163,4 @@ public class Screen {
     public JFrame getFrame() {
         return frame;
     }
-
 }
