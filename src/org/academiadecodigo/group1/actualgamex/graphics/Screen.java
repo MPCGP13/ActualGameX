@@ -11,12 +11,14 @@ import java.io.*;
 public class Screen {
 
     private static final String FONT_TYPE = "Verdana";
+
+    private final UserGraphics userGraphics;
+    private final JFrame frame = new JFrame();;
     private final String[] playerPaths = {"resources/player_01.png",
             "resources/player_02.png",
             "resources/player_03.png",
             "resources/player_04.png"};
-    private final UserGraphics userGraphics;
-    private JFrame frame;
+
     private JLayeredPane layer_background;
     private JLayeredPane layer_init;
     private JLayeredPane layer_word;
@@ -46,11 +48,11 @@ public class Screen {
         init_titleImg = null;
         background_PlayerImg = null;
 
-        drawScreen();
+        initScreen();
     }
 
-    public void drawScreen() {
-        frame = new JFrame();
+    public void initScreen() {
+        // Frame
         frame.setSize(1415, 640);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
