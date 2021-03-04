@@ -6,28 +6,30 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Paintor implements Runnable{
 
+    private final UserGraphics userGraphics;
+    private final User user;
+    private final int userID;
 
-    private UserGraphics userGraphics;
-    private User user;
-    private int quadrant;
-
-    public Paintor(UserGraphics userGraphics, User user, int quadrant) {
+    public Paintor(UserGraphics userGraphics, User user, int userID) {
         this.user = user;
         this.userGraphics = userGraphics;
-        this.quadrant = quadrant;
+        this.userID = userID;
     }
+
+    /**
+     * Method that gets the opponent PaintingBuffer and paints dots on the user screen.
+     */
 
     @Override
     public void run() {
-
-        CopyOnWriteArrayList<String> buff = user.getUserListener().getOtherCoordBuffer(quadrant);
+        CopyOnWriteArrayList<String> paintingBuffer = user.getUserListener().getOpponentPaintingBuffer(userID);
 
         while (true) {
-            if (buff.size() > 0) {
-                String[] messageSplit = buff.remove(0).split(",");
+            if (paintingBuffer.size() > 0) {
+                String[] messageSplit = paintingBuffer.remove(0).split(",");
                 int x = Integer.parseInt(messageSplit[0]);
                 int y = Integer.parseInt(messageSplit[1]);
-                userGraphics.paintDot(x, y, quadrant);
+                userGraphics.paintDot(x, y, userID);
             }
         }
     }

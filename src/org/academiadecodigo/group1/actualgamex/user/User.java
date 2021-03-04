@@ -9,6 +9,8 @@ import java.util.concurrent.Executors;
 
 public class User {
 
+    private static final int MAXIMUM_PLAYERS = 4;
+
     private final Socket socket;
     private final ExecutorService listenThread;
     private final ExecutorService writeThread;
@@ -16,18 +18,20 @@ public class User {
     private UserListener userListener;
     private UserWriter userWriter;
     private UserGraphics userGraphics;
-    private CopyOnWriteArrayList<String> myCoordBuffer;
-    private int vote = 0;
+    private CopyOnWriteArrayList<String> myPaintingBuffer;
+    private int vote;
 
     public User(String host, int port) throws IOException {
         socket = new Socket(host, port);
         listenThread = Executors.newSingleThreadExecutor();
         writeThread = Executors.newSingleThreadExecutor();
         graphicsThread = Executors.newSingleThreadExecutor();
-        myCoordBuffer = new CopyOnWriteArrayList<>();
-
+        myPaintingBuffer = new CopyOnWriteArrayList<>();
     }
 
+    /**
+     * This method starts the threads and initiates the graphics and user listener and writer.
+     */
     public void start() {
 
         userGraphics = new UserGraphics(this);
@@ -45,8 +49,10 @@ public class User {
 
     }
 
+    /**
+     * This method closes the user threads and socket.
+     */
     public void stop() {
-
         System.out.println("STOPPING!");
 
         try {
@@ -56,32 +62,32 @@ public class User {
                 listenThread.shutdown();
                 writeThread.shutdown();
                 graphicsThread.shutdown();
-                // System.exit(0);  ????
             }
 
         } catch (IOException ex) { System.out.println("Error closing connection: " + ex.getMessage()); }
-
     }
 
-
-    public UserWriter getUserWriter() {
-        return userWriter;
-    }
+    // GETTERS -------------------------------------------------------------
 
     public UserGraphics getUserGraphics() {
         return userGraphics;
     }
-    public CopyOnWriteArrayList<String> getMyCoordBuffer() {
-        return myCoordBuffer;
+    public CopyOnWriteArrayList<String> getMyPaintingBuffer() {
+        return myPaintingBuffer;
     }
     public UserListener getUserListener() {
         return userListener;
     }
+    public int getVote() {
+        return vote;
+    }
+    public static int getMaximumPlayers() {
+        return MAXIMUM_PLAYERS;
+    }
+
+    // SETTERS --------------------------------------------------------------
 
     public void setVote(int vote) {
         this.vote = vote;
-    }
-    public int getVote() {
-        return vote;
     }
 }
