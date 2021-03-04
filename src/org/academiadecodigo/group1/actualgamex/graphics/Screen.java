@@ -116,10 +116,11 @@ public class Screen {
      */
     public void vote() {
 
+        System.out.println("VOTE 1");
         frame.add(layerVoting, 0);
-
+        System.out.println("VOTE 2");
         votePlayers = new JButton[User.getMaximumPlayers()];
-
+        System.out.println("VOTE 3");
         for (int i = 0; i < votePlayers.length; i++) {
             votePlayers[i] = new JButton("J'accuse Fake Dudu!");
 
@@ -134,6 +135,7 @@ public class Screen {
 
             layerVoting.add(votePlayers[i]);
         }
+        System.out.println("VOTE 4");
 
         framePaint();
     }
@@ -230,7 +232,7 @@ public class Screen {
      */
     private void remove(JLayeredPane layer) {
         frame.remove(layer);
-        //frame.revalidate();
+        // frame.revalidate();
         frame.repaint();
     }
 

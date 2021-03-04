@@ -36,7 +36,7 @@ public class UserGraphics implements Runnable {
         user.setVote(0);
 
         try {
-            if(!gameStage.equals(Messages.RESTART_GAME)) {
+            if(gameStage.equals(Messages.INIT_GAME)) {
                 screen = new Screen("Fake Dudu", this);
             }
 
