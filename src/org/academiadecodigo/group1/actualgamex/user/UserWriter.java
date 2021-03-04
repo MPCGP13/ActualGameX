@@ -30,15 +30,10 @@ public class UserWriter implements Runnable {
 
             while (!socket.isClosed()) {
 
-                // Quits
-                if (user.getUserGraphics().getGameStage().equals(Messages.QUIT)) {
-                    out.println(Messages.QUIT);
-                    close();
-                }
-
                 // Restart
-                if (user.getUserGraphics().getGameStage().equals(Messages.RESTART_GAME)) {
+                if (user.getUserGraphics().isRestarting()) {
                     out.println(Messages.RESTART_GAME);
+                    user.getUserGraphics().setRestarting(false);
                 }
 
                 // Sends vote

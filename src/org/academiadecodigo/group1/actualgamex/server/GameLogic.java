@@ -16,7 +16,6 @@ public class GameLogic {
     public GameLogic(Server server) {
         this.server = server;
         votes = new CopyOnWriteArrayList<>();
-
     }
 
     public void init() {
@@ -51,7 +50,8 @@ public class GameLogic {
 
         server.broadcast(Messages.RESTART_GAME, null);
 
-        init();
+        votes.clear();
+        server.run();
     }
 
     public void sleep (int seconds) {

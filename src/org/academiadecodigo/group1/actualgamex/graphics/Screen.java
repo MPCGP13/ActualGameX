@@ -37,9 +37,10 @@ public class Screen {
     private JLabel counter;
     private JLabel result;
     private JLabel end;
+    private JLabel standby;
 
     private JButton[] votePlayers;
-    private JButton[] standbyOptions;
+    private JButton restart;
 
     public Screen(String title, UserGraphics userGraphics) {
         this.userGraphics = userGraphics;
@@ -59,6 +60,7 @@ public class Screen {
         layerEnd = new JLayeredPane();
 
         end = new JLabel("");
+        standby = new JLabel("");
         counter = new JLabel("");
         word = new JLabel("");
         result = new JLabel("");
@@ -66,7 +68,7 @@ public class Screen {
         initTitleImg = null;
         backgroundPlayerImg = null;
 
-        standbyOptions = new JButton[2];
+        restart = new JButton();
     }
 
     /**
@@ -116,11 +118,8 @@ public class Screen {
      */
     public void vote() {
 
-        System.out.println("VOTE 1");
         frame.add(layerVoting, 0);
-        System.out.println("VOTE 2");
         votePlayers = new JButton[User.getMaximumPlayers()];
-        System.out.println("VOTE 3");
         for (int i = 0; i < votePlayers.length; i++) {
             votePlayers[i] = new JButton("J'accuse Fake Dudu!");
 
@@ -135,7 +134,6 @@ public class Screen {
 
             layerVoting.add(votePlayers[i]);
         }
-        System.out.println("VOTE 4");
 
         framePaint();
     }
@@ -159,13 +157,18 @@ public class Screen {
 
         frame.add(layerStandby, 0);
 
-        for (int i = 0; i < standbyOptions.length; i++) {
-            standbyOptions[i] = (i == 0) ? new JButton("Play Again") : new JButton("Quit");
-            standbyOptions[i].setBounds((180 + ((SCREEN_WIDTH - SCREEN_SIDEBAR) / 2) * i), 130, (SCREEN_HEIGHT / 4), 30);
-            standbyOptions[i].setFont(new Font(FONT_TYPE, Font.PLAIN, 20));
-            standbyOptions[i].addActionListener(new ButtonRestartQuit(i, userGraphics));
+        if(userGraphics.getUserID() == 1) {
 
-            layerStandby.add(standbyOptions[i]);
+            restart = new JButton("Play Again");
+            restart.setBounds(((SCREEN_WIDTH - SCREEN_SIDEBAR) / 2 - 125), 285, 250, 30);
+            restart.setFont(new Font(FONT_TYPE, Font.PLAIN, 20));
+            restart.addActionListener(new ButtonRestart(0, userGraphics));
+
+            layerStandby.add(restart);
+
+        } else {
+            paintWord(layerStandby, standby, "Waiting for host...", 35, new int[]{(SCREEN_WIDTH - SCREEN_SIDEBAR) / 2 - 150, 0, SCREEN_WIDTH, SCREEN_HEIGHT});
+
         }
 
         framePaint();
@@ -175,7 +178,7 @@ public class Screen {
      * Method that refreshes the screen to the end screen mode
      */
     public void endScreen (String message) {
-        remove(layerVoting);
+        remove(layerStandby);
 
         frame.add(layerEnd, 0);
         paintWord(layerEnd, end, message, 58, new int[]{250, 0, 700, 600});
@@ -187,8 +190,8 @@ public class Screen {
      */
     private void paintImage(JLayeredPane layer, JLabel label, String imagePath, int[] bounds) {
         try {
-            // label = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath))));
-            label = new JLabel(new ImageIcon(ImageIO.read(new File(imagePath))));
+            label = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath))));
+           // label = new JLabel(new ImageIcon(ImageIO.read(new File(imagePath))));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -232,7 +235,7 @@ public class Screen {
      */
     private void remove(JLayeredPane layer) {
         frame.remove(layer);
-        // frame.revalidate();
+        //frame.revalidate();
         frame.repaint();
     }
 

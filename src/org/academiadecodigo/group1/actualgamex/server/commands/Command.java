@@ -4,7 +4,6 @@ import org.academiadecodigo.group1.actualgamex.Messages;
 
 public enum Command {
     QUIT("", new QuitHandler()),
-    USER_QUIT("QUIT", new QuitHandler()),
     RESTART("RESTART_GAME", new RestartHandler()),
     INVALID("", new InvalidHandler()),
     COORDINATES("", new PaintHandler()),

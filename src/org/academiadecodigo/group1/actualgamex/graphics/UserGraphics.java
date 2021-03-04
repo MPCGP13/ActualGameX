@@ -20,6 +20,7 @@ public class UserGraphics implements Runnable {
     private String gameStage;
     private String gameWord;
     private String winner;
+    private boolean restarting;
 
     public UserGraphics(User user) {
         coordinates = new int[2];
@@ -34,6 +35,7 @@ public class UserGraphics implements Runnable {
     public void run() {
 
         user.setVote(0);
+        restarting = false;
 
         try {
             if(gameStage.equals(Messages.INIT_GAME)) {
@@ -58,8 +60,6 @@ public class UserGraphics implements Runnable {
             while(!gameStage.equals(Messages.VOTE_TIME)) {
                 TimeUnit.SECONDS.sleep(1);
             }
-
-            System.out.println("LET's VOTE!");
 
             // Disable painting
             screen.vote();
@@ -160,7 +160,9 @@ public class UserGraphics implements Runnable {
         return userID;
     }
     public String getGameStage() {
-        return gameStage;
+        synchronized (gameStage) {
+            return gameStage;
+        }
     }
     public String getGameWord() {
         return gameWord;
@@ -171,8 +173,11 @@ public class UserGraphics implements Runnable {
     public Screen getScreen() {
         return screen;
     }
+    public String getWinner() { return this.winner; }
 
-
+    public boolean isRestarting() {
+        return restarting;
+    }
     // SETTERS -----------------------------------------------------------
 
     public void setCoordinates(int[] coordinates) {
@@ -182,12 +187,19 @@ public class UserGraphics implements Runnable {
         this.userID = userID;
     }
     public void setGameStage(String gameStage) {
-        this.gameStage = gameStage;
+        synchronized(gameStage) {
+            this.gameStage = gameStage;
+            System.out.println("setting to: " + gameStage);
+        }
     }
     public void setGameWord(String gameWord) {
         this.gameWord = gameWord;
     }
     public void setWinner(String winner) {
         this.winner = winner;
+    }
+
+    public void setRestarting(boolean restarting) {
+        this.restarting = restarting;
     }
 }

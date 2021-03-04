@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 public class Server implements Runnable {
 
     private static final String DEFAULT_NAME = "Player";
-    private static final int MAXIMUM_PLAYERS = 2;
+    private static final int MAXIMUM_PLAYERS = 4;
 
     private ServerSocket socket;
     private ExecutorService service;

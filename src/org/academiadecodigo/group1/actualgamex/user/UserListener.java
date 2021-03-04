@@ -78,16 +78,16 @@ public class UserListener {
 
             switch (splitedMsg[0]) {
                 case Messages.START_GAME:
-                    userGraphics.setGameStage(Messages.START_GAME);
                     userGraphics.setGameWord(splitedMsg[1]);
+                    userGraphics.setGameStage(Messages.START_GAME);
                     break;
                 case Messages.VOTE_TIME:
                     userGraphics.setGameStage(Messages.VOTE_TIME);
                     break;
                 case Messages.STANDBY:
-                    userGraphics.setGameStage(Messages.STANDBY);
                     userGraphics.setWinner(splitedMsg[1]);
                     userGraphics.setGameWord(splitedMsg[2]);
+                    userGraphics.setGameStage(Messages.STANDBY);
                     break;
                 case Messages.END_GAME:
                     userGraphics.setGameStage(Messages.END_GAME);
