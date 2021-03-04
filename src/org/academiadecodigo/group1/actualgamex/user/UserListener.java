@@ -1,7 +1,7 @@
 package org.academiadecodigo.group1.actualgamex.user;
 
 import org.academiadecodigo.group1.actualgamex.graphics.UserGraphics;
-import org.academiadecodigo.group1.actualgamex.server.Messages;
+import org.academiadecodigo.group1.actualgamex.Messages;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -84,10 +84,16 @@ public class UserListener {
                 case Messages.VOTE_TIME:
                     userGraphics.setGameStage(Messages.VOTE_TIME);
                     break;
-                case Messages.END_GAME:
-                    userGraphics.setGameStage(Messages.END_GAME);
+                case Messages.STANDBY:
+                    userGraphics.setGameStage(Messages.STANDBY);
                     userGraphics.setWinner(splitedMsg[1]);
                     userGraphics.setGameWord(splitedMsg[2]);
+                    break;
+                case Messages.END_GAME:
+                    userGraphics.setGameStage(Messages.END_GAME);
+                    break;
+                case Messages.RESTART_GAME:
+                    userGraphics.setGameStage(Messages.RESTART_GAME);
                     break;
             }
 

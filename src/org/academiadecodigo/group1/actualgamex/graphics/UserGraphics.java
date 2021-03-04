@@ -1,6 +1,6 @@
 package org.academiadecodigo.group1.actualgamex.graphics;
 
-import org.academiadecodigo.group1.actualgamex.server.Messages;
+import org.academiadecodigo.group1.actualgamex.Messages;
 import org.academiadecodigo.group1.actualgamex.user.Paintor;
 import org.academiadecodigo.group1.actualgamex.user.User;
 
@@ -20,13 +20,11 @@ public class UserGraphics implements Runnable {
     private String gameStage;
     private String gameWord;
     private String winner;
-    private boolean restart;
 
     public UserGraphics(User user) {
         coordinates = new int[2];
         this.user = user;
-        gameStage = "init";
-        restart = false;
+        gameStage = Messages.INIT_GAME;
     }
 
     /**
@@ -35,8 +33,10 @@ public class UserGraphics implements Runnable {
     @Override
     public void run() {
 
+        user.setVote(0);
+
         try {
-            if(!restart) {
+            if(!gameStage.equals(Messages.RESTART_GAME)) {
                 screen = new Screen("Fake Dudu", this);
             }
 
@@ -59,30 +59,55 @@ public class UserGraphics implements Runnable {
                 TimeUnit.SECONDS.sleep(1);
             }
 
+            System.out.println("LET's VOTE!");
+
             // Disable painting
             screen.vote();
 
             // Wait for all players to vote
-            while(!gameStage.equals("/END_GAME")) {
+            while(!gameStage.equals(Messages.STANDBY)) {
                 TimeUnit.SECONDS.sleep(1);
             }
 
             // Present end screen
             switch(winner) {
                 case "FakeDudu":
-                    screen.endScreen("Fake Dudu won!");
+                    screen.resultScreen("Fake Dudu won!");
                     break;
                 case "player":
-                    screen.endScreen("Fake Dudu lost!");
+                    screen.resultScreen("Fake Dudu lost!");
                     break;
             }
 
-            // Restarting in...
-            //TimeUnit.SECONDS.sleep(15);
+            // Stand Screen: Quit or Restart
+            TimeUnit.SECONDS.sleep(7);
+            screen.standbyScreen();
+
+            // Wait for some player to restart
+            while(gameStage.equals(Messages.STANDBY)) {
+                TimeUnit.SECONDS.sleep(1);
+            }
+
+            // Quiting Game
+            if (gameStage.equals(Messages.END_GAME)) {
+                screen.endScreen("Host ended the game.");
+                TimeUnit.SECONDS.sleep(3);
+                user.stop();
+            }
+
+            // Restarting game
+            if (gameStage.equals(Messages.RESTART_GAME)) {
+                screen.endScreen("Restarting the game.");
+                TimeUnit.SECONDS.sleep(3);
+            }
+
+            screen.reset();
+            run();
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
 
     /**

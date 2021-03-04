@@ -19,7 +19,7 @@ public class User {
     private UserWriter userWriter;
     private UserGraphics userGraphics;
     private CopyOnWriteArrayList<String> myPaintingBuffer;
-    private int vote = 0;
+    private int vote;
 
     public User(String host, int port) throws IOException {
         socket = new Socket(host, port);
@@ -67,7 +67,6 @@ public class User {
         } catch (IOException ex) { System.out.println("Error closing connection: " + ex.getMessage()); }
     }
 
-
     // GETTERS -------------------------------------------------------------
 
     public UserGraphics getUserGraphics() {
@@ -86,7 +85,7 @@ public class User {
         return MAXIMUM_PLAYERS;
     }
 
-// SETTERS --------------------------------------------------------------
+    // SETTERS --------------------------------------------------------------
 
     public void setVote(int vote) {
         this.vote = vote;

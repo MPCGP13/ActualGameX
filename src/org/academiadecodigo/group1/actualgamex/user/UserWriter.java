@@ -1,6 +1,6 @@
 package org.academiadecodigo.group1.actualgamex.user;
 
-import org.academiadecodigo.group1.actualgamex.server.Messages;
+import org.academiadecodigo.group1.actualgamex.Messages;
 
 import java.io.*;
 import java.net.Socket;
@@ -29,6 +29,17 @@ public class UserWriter implements Runnable {
             CopyOnWriteArrayList<String> myPaintingBuffer = user.getMyPaintingBuffer();
 
             while (!socket.isClosed()) {
+
+                // Quits
+                if (user.getUserGraphics().getGameStage().equals(Messages.QUIT)) {
+                    out.println(Messages.QUIT);
+                    close();
+                }
+
+                // Restart
+                if (user.getUserGraphics().getGameStage().equals(Messages.RESTART_GAME)) {
+                    out.println(Messages.RESTART_GAME);
+                }
 
                 // Sends vote
                 if (user.getUserGraphics().getGameStage().equals(Messages.VOTE_TIME) && user.getVote() != 0) {

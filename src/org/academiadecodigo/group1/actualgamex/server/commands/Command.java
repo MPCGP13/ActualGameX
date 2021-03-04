@@ -1,12 +1,14 @@
 package org.academiadecodigo.group1.actualgamex.server.commands;
 
-import org.academiadecodigo.group1.actualgamex.server.Messages;
+import org.academiadecodigo.group1.actualgamex.Messages;
 
 public enum Command {
     QUIT("", new QuitHandler()),
+    USER_QUIT("QUIT", new QuitHandler()),
+    RESTART("RESTART_GAME", new RestartHandler()),
     INVALID("", new InvalidHandler()),
-    COORDINATES("", new PaintingHandler()),
-    VOTE_COORDINATES("VOTING", new VotingHandler());
+    COORDINATES("", new PaintHandler()),
+    VOTE_COORDINATES("VOTING", new VoteHandler());
 
     private String commandMessage;
     private CommandHandler handler;
@@ -29,14 +31,13 @@ public enum Command {
         String userCommand = message.split(" ")[0];
 
 
-
         for (Command command : values()) {
             if (userCommand.equals(command.commandMessage)) {
                 return command;
             }
         }
 
-        System.out.println("going invalid on commmand");
+        System.out.println("going invalid on command");
         return INVALID;
     }
 

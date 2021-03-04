@@ -1,6 +1,6 @@
 package org.academiadecodigo.group1.actualgamex.graphics;
 
-import org.academiadecodigo.group1.actualgamex.server.Messages;
+import org.academiadecodigo.group1.actualgamex.Messages;
 import org.academiadecodigo.group1.actualgamex.user.User;
 
 import java.awt.event.*;
@@ -42,13 +42,13 @@ public class MouseController implements MouseMotionListener {
 
         switch (userGraphics.getUserID()) {
             case 1:
-                return (e.getX() > 0 && e.getX() < 595 && e.getY() > 10 && e.getY() < 315);
+                return (e.getX() > 0 && e.getX() < 585 && e.getY() > 10 && e.getY() < 315);
             case 2:
-                return (e.getX() >= 605 && e.getX() < 1190 && e.getY() > 10 && e.getY() < 315);
+                return (e.getX() >= 600 && e.getX() < 1180 && e.getY() > 10 && e.getY() < 315);
             case 3:
-                return (e.getX() > 0 && e.getX() < 595 && e.getY() > 315 && e.getY() < 640);
+                return (e.getX() > 0 && e.getX() < 585 && e.getY() > 315 && e.getY() < 640);
             default:
-                return (e.getX() >= 605 && e.getX() < 1190 && e.getY() > 315 && e.getY() < 640);
+                return (e.getX() >= 600 && e.getX() < 1180 && e.getY() > 315 && e.getY() < 640);
         }
 
     }

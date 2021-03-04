@@ -21,40 +21,56 @@ public class Screen {
             "resources/player_03.png",
             "resources/player_04.png"};
 
-    private JLayeredPane layer_background;
-    private JLayeredPane layer_init;
-    private JLayeredPane layer_word;
-    private JLayeredPane layer_counter;
-    private JLayeredPane layer_end;
-    private JLayeredPane layer_voting;
-    private JLabel background_Img;
-    private JLabel init_titleImg;
-    private JLabel background_PlayerImg;
+    private JLayeredPane layerBackground;
+    private JLayeredPane layerInit;
+    private JLayeredPane layerWord;
+    private JLayeredPane layerCounter;
+    private JLayeredPane layerResult;
+    private JLayeredPane layerVoting;
+    private JLayeredPane layerStandby;
+    private JLayeredPane layerEnd;
+
+    private JLabel backgroundImg;
+    private JLabel initTitleImg;
+    private JLabel backgroundPlayerImg;
     private JLabel word;
     private JLabel counter;
+    private JLabel result;
     private JLabel end;
+
     private JButton[] votePlayers;
+    private JButton[] standbyOptions;
 
     public Screen(String title, UserGraphics userGraphics) {
         this.userGraphics = userGraphics;
-        layer_background = new JLayeredPane();
-        layer_init = new JLayeredPane();
-        layer_word = new JLayeredPane();
-        layer_counter = new JLayeredPane();
-        layer_end = new JLayeredPane();
-        layer_voting = new JLayeredPane();
-        counter = new JLabel("");
-        word = new JLabel("");
-        end = new JLabel("");
-        background_Img = null;
-        init_titleImg = null;
-        background_PlayerImg = null;
-
+        initLayers();
         initScreen();
     }
 
+    public void initLayers() {
+        layerBackground = new JLayeredPane();
+        layerInit = new JLayeredPane();
+        layerWord = new JLayeredPane();
+        layerCounter = new JLayeredPane();
+        layerResult = new JLayeredPane();
+        layerVoting = new JLayeredPane();
+        layerVoting = new JLayeredPane();
+        layerStandby = new JLayeredPane();
+        layerEnd = new JLayeredPane();
+
+        end = new JLabel("");
+        counter = new JLabel("");
+        word = new JLabel("");
+        result = new JLabel("");
+        backgroundImg = null;
+        initTitleImg = null;
+        backgroundPlayerImg = null;
+
+        standbyOptions = new JButton[2];
+    }
+
     /**
-     * Method that initiates the screen and lauches the first images.
+     * Method that initiates the screen and launches the first images.
      */
     public void initScreen() {
         // Frame
@@ -62,24 +78,24 @@ public class Screen {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Counter
-        frame.add(layer_counter, 0);
-        paintWord(layer_counter, counter, "", 34, new int[]{1258, 280, 200, 40});
+        frame.add(layerCounter, 0);
+        paintWord(layerCounter, counter, "", 34, new int[]{1258, 280, 200, 40});
         framePaint();
 
         // Start
-        frame.add(layer_word, 1);
-        paintWord(layer_word, word, "", 24, new int[]{1215, 530, 200, 40});
+        frame.add(layerWord, 1);
+        paintWord(layerWord, word, "", 24, new int[]{1215, 530, 200, 40});
         frame.setVisible(true);
 
         // Init
-        frame.add(layer_init, 2);
-        paintImage(layer_init, init_titleImg, "resources/title.png", new int[] {400, 140, 405, 302});
+        frame.add(layerInit, 2);
+        paintImage(layerInit, initTitleImg, "resources/title.png", new int[] {400, 140, 405, 302});
         frame.setVisible(true);
 
         // Background
-        frame.add(layer_background, 3);
-        paintImage(layer_background, background_PlayerImg, playerPaths[userGraphics.getUserID()-1], new int[] {1200, 10, 68, 64});
-        paintImage(layer_background, background_Img, "resources/background.png", new int[] {0,0,1400,600});
+        frame.add(layerBackground, 3);
+        paintImage(layerBackground, backgroundPlayerImg, playerPaths[userGraphics.getUserID()-1], new int[] {1200, 10, 68, 64});
+        paintImage(layerBackground, backgroundImg, "resources/background.png", new int[] {0,0,1400,600});
         frame.setVisible(true);
     }
 
@@ -87,10 +103,7 @@ public class Screen {
      * Method that refreshes the screen to the start mode.
      */
     public void start() {
-        frame.remove(layer_init);
-        frame.revalidate();
-        frame.repaint();
-        System.out.println("Starting Word");
+        remove(layerInit);
 
         word.setText(userGraphics.getGameWord());
         word.setText(userGraphics.getGameWord());
@@ -102,7 +115,8 @@ public class Screen {
      * Method that refreshes the screen to the vote mode.
      */
     public void vote() {
-        frame.add(layer_voting, 0);
+
+        frame.add(layerVoting, 0);
 
         votePlayers = new JButton[User.getMaximumPlayers()];
 
@@ -116,9 +130,40 @@ public class Screen {
             }
 
             votePlayers[i].setFont(new Font(FONT_TYPE, Font.PLAIN, 20));
-            votePlayers[i].addActionListener(new ButtonAction((i+1), userGraphics));
+            votePlayers[i].addActionListener(new ButtonVote((i+1), userGraphics));
 
-            layer_voting.add(votePlayers[i]);
+            layerVoting.add(votePlayers[i]);
+        }
+
+        framePaint();
+    }
+
+    /**
+     * Method that refreshes the screen to the result screen mode
+     */
+    public void resultScreen (String message) {
+        remove(layerVoting);
+
+        frame.add(layerResult, 0);
+        paintWord(layerResult, result, message, 68, new int[]{250, 0, 700, 600});
+        framePaint();
+    }
+
+    /**
+     * Method that refreshes the screen to the standby screen mode
+     */
+    public void standbyScreen() {
+        remove(layerResult);
+
+        frame.add(layerStandby, 0);
+
+        for (int i = 0; i < standbyOptions.length; i++) {
+            standbyOptions[i] = (i == 0) ? new JButton("Play Again") : new JButton("Quit");
+            standbyOptions[i].setBounds((180 + ((SCREEN_WIDTH - SCREEN_SIDEBAR) / 2) * i), 130, (SCREEN_HEIGHT / 4), 30);
+            standbyOptions[i].setFont(new Font(FONT_TYPE, Font.PLAIN, 20));
+            standbyOptions[i].addActionListener(new ButtonRestartQuit(i, userGraphics));
+
+            layerStandby.add(standbyOptions[i]);
         }
 
         framePaint();
@@ -128,12 +173,10 @@ public class Screen {
      * Method that refreshes the screen to the end screen mode
      */
     public void endScreen (String message) {
-        frame.remove(layer_voting);
-        frame.revalidate();
-        frame.repaint();
+        remove(layerVoting);
 
-        frame.add(layer_end, 0);
-        paintWord(layer_end, end, message, 68, new int[]{250, 0, 700, 600});
+        frame.add(layerEnd, 0);
+        paintWord(layerEnd, end, message, 58, new int[]{250, 0, 700, 600});
         framePaint();
     }
 
@@ -142,13 +185,25 @@ public class Screen {
      */
     private void paintImage(JLayeredPane layer, JLabel label, String imagePath, int[] bounds) {
         try {
-            label = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath))));
+            // label = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath))));
+            label = new JLabel(new ImageIcon(ImageIO.read(new File(imagePath))));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         label.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
         layer.add(label);
+    }
+
+    /**
+     * Method that resets the frame.
+     */
+    public void reset() {
+        frame.getContentPane().removeAll();
+        frame.repaint();
+
+        initLayers();
+        initScreen();
     }
 
     /**
@@ -168,6 +223,15 @@ public class Screen {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    /**
+     * Method that paints the frame.
+     */
+    private void remove(JLayeredPane layer) {
+        frame.remove(layer);
+        //frame.revalidate();
+        frame.repaint();
     }
 
     /**
